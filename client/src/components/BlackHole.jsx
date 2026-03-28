@@ -26,9 +26,9 @@ export default function BlackHole({ className = '', style = {} }) {
     // BH_OFFSET shifts the entire black hole group to the right so it sits in
     // the empty gap between the left text column and the right viewport edge.
     // Camera looks at that offset point from a top-right-front angle.
-    const BH_X = 28; // world-space right offset for the black hole
-    const camera = new THREE.PerspectiveCamera(58, W / H, 0.1, 2000);
-    camera.position.set(BH_X + 10, 30, 72);
+    const BH_X = 22; // world-space right offset — sits in right half of viewport
+    const camera = new THREE.PerspectiveCamera(62, W / H, 0.1, 2000);
+    camera.position.set(BH_X + 8, 38, 95);
     camera.lookAt(BH_X, 0, 0);
 
     // ── Star Field ────────────────────────────────────────────────────────────
@@ -61,7 +61,7 @@ export default function BlackHole({ className = '', style = {} }) {
     scene.add(bhGroup);
 
     // ── Event Horizon ─────────────────────────────────────────────────────────
-    const HORIZON_R = 7.0;
+    const HORIZON_R = 13.0; // ~2× larger — fills the right half visually
     const horizonMesh = new THREE.Mesh(
       new THREE.SphereGeometry(HORIZON_R, 64, 64),
       new THREE.MeshBasicMaterial({ color: 0x000000 })
@@ -214,8 +214,8 @@ export default function BlackHole({ className = '', style = {} }) {
       blending: THREE.AdditiveBlending,
     });
 
-    const disk = new THREE.Mesh(buildAnnulus(HORIZON_R * 1.08, 42, 512), diskMat);
-    disk.rotation.x = Math.PI * 0.14;
+    const disk = new THREE.Mesh(buildAnnulus(HORIZON_R * 1.08, 72, 512), diskMat);
+    disk.rotation.x = Math.PI * 0.13;
     disk.rotation.z = Math.PI * 0.04;
     bhGroup.add(disk);
 
@@ -238,7 +238,7 @@ export default function BlackHole({ className = '', style = {} }) {
     addStreakRing(HORIZON_R * 1.48, 0.05, Math.PI * 0.32, 0.15,  0x8844ff, 0.28);
 
     // ── Orbiting Particles — Keplerian spiral infall ───────────────────────────
-    const PART_COUNT = 4000;
+    const PART_COUNT = 5500;
     const pPos  = new Float32Array(PART_COUNT * 3);
     const pCol  = new Float32Array(PART_COUNT * 3);
     const pData = new Float32Array(PART_COUNT * 4); // angle, radius, speed, phase
@@ -254,10 +254,10 @@ export default function BlackHole({ className = '', style = {} }) {
 
     for (let i = 0; i < PART_COUNT; i++) {
       const angle  = Math.random() * Math.PI * 2;
-      const radius = HORIZON_R * 1.1 + Math.random() * 34;
+      const radius = HORIZON_R * 1.1 + Math.random() * 58;
       const speed  = (0.22 + Math.random() * 0.18) / Math.sqrt(radius);
       const phase  = Math.random() * Math.PI * 2;
-      const height = (Math.random() - 0.5) * Math.max(0.1, 1.8 - radius * 0.03);
+      const height = (Math.random() - 0.5) * Math.max(0.1, 2.8 - radius * 0.03);
 
       pData[i * 4]     = angle;
       pData[i * 4 + 1] = radius;
@@ -294,7 +294,7 @@ export default function BlackHole({ className = '', style = {} }) {
       for (let i = 0; i < N; i++) {
         const t      = Math.pow(Math.random(), 0.7);
         const spread = 0.5 * t;
-        const dist   = dir * (HORIZON_R + t * 60);
+        const dist   = dir * (HORIZON_R + t * 90);
         pos[i*3]   = (Math.random()-0.5) * spread;
         pos[i*3+1] = dist;
         pos[i*3+2] = (Math.random()-0.5) * spread;
@@ -319,7 +319,7 @@ export default function BlackHole({ className = '', style = {} }) {
     const nebCols = [0x2200aa, 0x5500bb, 0x990055, 0x110044, 0x440088];
     for (let i = 0; i < 20; i++) {
       const a = (i / 20) * Math.PI * 2 + Math.random() * 0.6;
-      const r = 50 + Math.random() * 70;
+      const r = 80 + Math.random() * 110;
       const m = new THREE.Mesh(
         new THREE.PlaneGeometry(24 + Math.random() * 20, 24 + Math.random() * 20),
         new THREE.MeshBasicMaterial({
@@ -380,9 +380,9 @@ export default function BlackHole({ className = '', style = {} }) {
       photonRing2.material.opacity = 0.45 * pulse;
 
       // Camera parallax — anchored to BH offset position
-      const baseX = BH_X + 10, baseY = 30, baseZ = 72;
-      camera.position.x += (baseX + mouse.x * 3  - camera.position.x) * 0.022;
-      camera.position.y += (baseY - mouse.y * 2.5 - camera.position.y) * 0.022;
+      const baseX = BH_X + 8, baseY = 38, baseZ = 95;
+      camera.position.x += (baseX + mouse.x * 4  - camera.position.x) * 0.022;
+      camera.position.y += (baseY - mouse.y * 3   - camera.position.y) * 0.022;
       camera.position.z += (baseZ                 - camera.position.z) * 0.022;
       camera.lookAt(BH_X, 0, 0);
 
