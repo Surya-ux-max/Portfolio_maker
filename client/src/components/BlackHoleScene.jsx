@@ -1,6 +1,6 @@
 import { useRef, useMemo, useEffect } from 'react';
-import { Canvas, useFrame, useThree, extend } from '@react-three/fiber';
-import { Stars, Sparkles, shaderMaterial } from '@react-three/drei';
+import { Canvas, useFrame, extend, useThree } from '@react-three/fiber';
+import { Stars, Sparkles, shaderMaterial, OrbitControls } from '@react-three/drei';
 import { EffectComposer, Bloom, ChromaticAberration } from '@react-three/postprocessing';
 import { BlendFunction } from 'postprocessing';
 import * as THREE from 'three';
@@ -99,27 +99,53 @@ function buildAnnulus(innerR, outerR, segs = 512) {
   return geo;
 }
 
-// ─── Camera rig ───────────────────────────────────────────────────────────────
+// ─── Camera rig — OrbitControls (drag / scroll / pan) ───────────────────────
 function CameraRig() {
-  const { camera } = useThree();
-  const mouse = useRef({ x: 0, y: 0 });
-
-  useEffect(() => {
-    const onMove = (e) => {
-      mouse.current.x = (e.clientX / window.innerWidth  - 0.5) * 2;
-      mouse.current.y = (e.clientY / window.innerHeight - 0.5) * 2;
-    };
-    window.addEventListener('mousemove', onMove);
-    return () => window.removeEventListener('mousemove', onMove);
-  }, []);
+  const controlsRef = useRef();
+  const { gl } = useThree(); // gl.domElement = the actual canvas element
 
   useFrame(() => {
-    camera.position.x += (BH_X + 1.5 + mouse.current.x * 1.2 - camera.position.x) * 0.028;
-    camera.position.y += (4.5  - mouse.current.y * 1.0         - camera.position.y) * 0.028;
-    camera.position.z += (14.0                                  - camera.position.z) * 0.028;
-    camera.lookAt(BH_X, 0, 0);
+    if (controlsRef.current) controlsRef.current.update();
   });
-  return null;
+
+  // Intercept wheel on the canvas — only let OrbitControls zoom when Ctrl/Meta held
+  useEffect(() => {
+    const canvas = gl.domElement;
+    const onWheel = (e) => {
+      if (!e.ctrlKey && !e.metaKey) {
+        // Normal scroll — stop OrbitControls from consuming it
+        e.stopPropagation();
+      }
+    };
+    // capture:true so we intercept before OrbitControls sees it
+    canvas.addEventListener('wheel', onWheel, { capture: true, passive: false });
+    return () => canvas.removeEventListener('wheel', onWheel, { capture: true });
+  }, [gl]);
+
+  return (
+    <OrbitControls
+      ref={controlsRef}
+      target={[BH_X, 0, 0]}
+      enableDamping
+      dampingFactor={0.06}
+      rotateSpeed={0.55}
+      zoomSpeed={0.8}
+      panSpeed={0.6}
+      enableZoom={true}
+      mouseButtons={{
+        LEFT:   THREE.MOUSE.ROTATE,
+        MIDDLE: THREE.MOUSE.DOLLY,
+        RIGHT:  THREE.MOUSE.PAN,
+      }}
+      minDistance={5}
+      maxDistance={60}
+      minPolarAngle={0}
+      maxPolarAngle={Math.PI}
+      autoRotate
+      autoRotateSpeed={0.4}
+      makeDefault
+    />
+  );
 }
 
 // ─── Accretion Disk ───────────────────────────────────────────────────────────
@@ -319,15 +345,9 @@ function Jets() {
 
 // ─── Black Hole Group ─────────────────────────────────────────────────────────
 function BlackHoleGroup() {
-  const groupRef = useRef();
-
-  useFrame(({ clock }) => {
-    if (groupRef.current)
-      groupRef.current.rotation.y = clock.getElapsedTime() * 0.008;
-  });
-
+  // No rotation.y override — OrbitControls owns the camera, not the group
   return (
-    <group ref={groupRef} position={[BH_X, 0, 0]}>
+    <group position={[BH_X, 0, 0]}>
       {/* Event horizon — pure black, renders on top */}
       <mesh renderOrder={10}>
         <sphereGeometry args={[HORIZON_R, 64, 64]} />

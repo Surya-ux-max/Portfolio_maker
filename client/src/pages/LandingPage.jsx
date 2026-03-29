@@ -169,8 +169,8 @@ const LandingPage = () => {
   return (
     <div className="min-h-screen bg-black text-white selection:bg-purple-500/30 font-sans overflow-x-hidden">
 
-      {/* ── R3F Black Hole — fixed full viewport ── */}
-      <div className="fixed inset-0 z-0">
+      {/* ── R3F Black Hole — fixed full viewport, pointer-events-auto so drag works ── */}
+      <div className="fixed inset-0 z-0" style={{ pointerEvents: 'auto' }}>
         <Suspense fallback={null}>
           <BlackHoleScene />
         </Suspense>
@@ -251,15 +251,15 @@ const LandingPage = () => {
       {/* ════════════════════════════════════════════════════════════════════
           HERO
       ════════════════════════════════════════════════════════════════════ */}
-      <section className="relative z-10 min-h-screen flex items-center">
+      <section className="relative z-10 min-h-screen flex items-center pointer-events-none">
         <motion.div
           style={{ opacity: heroOpacity, y: heroY }}
           className="max-w-7xl mx-auto px-6 lg:px-10 w-full"
         >
           <div className="grid lg:grid-cols-2 gap-12 items-center pt-24 pb-20 lg:pt-0 lg:pb-0">
 
-            {/* Left content */}
-            <div className="flex flex-col items-start">
+            {/* Left content — restore pointer events so buttons/links work */}
+            <div className="flex flex-col items-start pointer-events-auto">
 
               {/* Badge */}
               <motion.div
@@ -359,7 +359,7 @@ const LandingPage = () => {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 1.2 }}
-          className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2"
+          className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 pointer-events-none"
         >
           <span className="text-xs text-slate-600 tracking-widest uppercase">Scroll</span>
           <motion.div
