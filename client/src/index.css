@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,700&family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap');
 @import "tailwindcss";
 
 /* ═══════════════════════════════════════════════════════════════════════════
@@ -109,14 +109,32 @@
 *, *::before, *::after { box-sizing: border-box; }
 
 body {
-  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
   background-color: var(--clr-bg);
   color: var(--clr-text);
   -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-feature-settings: 'cv02','cv03','cv04','cv11'; /* Inter optical features */
   transition: background-color 0.4s ease, color 0.4s ease;
 }
 
-.font-outfit { font-family: 'Outfit', sans-serif; }
+/* Playfair Display — for all headings */
+.font-outfit,
+.font-serif-display {
+  font-family: 'Playfair Display', Georgia, 'Times New Roman', serif;
+}
+
+/* Inter — explicit utility */
+.font-inter {
+  font-family: 'Inter', system-ui, sans-serif;
+}
+
+/* JetBrains Mono — for code, URLs, monospace */
+.font-mono,
+code, kbd, pre {
+  font-family: 'JetBrains Mono', 'Fira Code', monospace;
+  font-feature-settings: 'liga' 1, 'calt' 1;
+}
 
 /* ═══════════════════════════════════════════════════════════════════════════
    PAGE BACKGROUNDS  — use on any page root div
@@ -220,7 +238,7 @@ body {
   border-radius: var(--radius-input);
   color: var(--clr-text);
   font-size: 0.875rem;
-  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-family: 'Inter', system-ui, sans-serif;
   transition: border-color 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
   outline: none;
   appearance: none;
@@ -255,7 +273,7 @@ body {
   border: none;
   cursor: pointer;
   transition: opacity 0.2s ease, transform 0.15s ease, box-shadow 0.2s ease;
-  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-family: 'Inter', system-ui, sans-serif;
 }
 .btn-primary:hover  { opacity: 0.92; box-shadow: var(--shadow-glow-lg); }
 .btn-primary:active { transform: scale(0.97); }
@@ -276,7 +294,7 @@ body {
   border: 1px solid var(--clr-border);
   cursor: pointer;
   transition: border-color 0.2s ease, background 0.2s ease, color 0.2s ease;
-  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-family: 'Inter', system-ui, sans-serif;
 }
 .btn-ghost:hover {
   border-color: var(--clr-border-hover);
