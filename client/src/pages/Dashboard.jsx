@@ -6,8 +6,8 @@ import portfolioService from '../api/portfolioService';
 import ThemeToggle from '../components/ThemeToggle';
 import {
   Plus, Edit3, LogOut, Eye, Copy, Check,
-  CheckCircle2, Layout, Zap, Globe, User,
-  ArrowRight, Sparkles, BarChart3, Clock,
+  CheckCircle2, Layout, Zap, Globe,
+  ArrowRight, Sparkles, BarChart3,
 } from 'lucide-react';
 
 /* ── Logo ─────────────────────────────────────────────────────────────────── */
@@ -18,7 +18,9 @@ function Logo({ size = 32 }) {
         <linearGradient id="dl1" x1="0" y1="0" x2="40" y2="40" gradientUnits="userSpaceOnUse">
           <stop offset="0%"   stopColor="#dc2626" />
           <stop offset="50%"  stopColor="#9333ea" />
-          <stop offset="100%" stopColor="#db2777" /> x1="0" y1="0" x2="40" y2="40" gradientUnits="userSpaceOnUse">
+          <stop offset="100%" stopColor="#db2777" />
+        </linearGradient>
+        <linearGradient id="dl2" x1="0" y1="0" x2="40" y2="40" gradientUnits="userSpaceOnUse">
           <stop offset="0%"   stopColor="#a78bfa" />
           <stop offset="100%" stopColor="#f472b6" />
         </linearGradient>
@@ -38,7 +40,7 @@ function StatCard({ icon, label, value, color, delay }) {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-      className="auth-card p-6 flex flex-col gap-4"
+      className="fp-card p-6 flex flex-col gap-4"
     >
       <div
         className="w-10 h-10 rounded-2xl flex items-center justify-center"
@@ -48,7 +50,7 @@ function StatCard({ icon, label, value, color, delay }) {
       </div>
       <div>
         <p className="text-2xl font-bold font-outfit" style={{ color }}>{value}</p>
-        <p className="text-sm text-slate-500 mt-0.5">{label}</p>
+        <p className="fp-text-muted text-sm mt-0.5">{label}</p>
       </div>
     </motion.div>
   );
@@ -66,18 +68,18 @@ function ProgressItem({ label, done, delay }) {
       <div
         className="w-6 h-6 rounded-full flex items-center justify-center shrink-0 transition-all duration-300"
         style={{
-          background: done ? 'linear-gradient(135deg,#dc2626,#db2777)' : 'rgba(255,255,255,0.04)',
-          border: done ? 'none' : '1px solid rgba(255,255,255,0.08)',
+          background: done ? 'linear-gradient(135deg,#dc2626,#db2777)' : 'var(--clr-surface-2)',
+          border: done ? 'none' : '1px solid var(--clr-border)',
         }}
       >
         {done && <CheckCircle2 className="w-3.5 h-3.5 text-white" />}
       </div>
-      <span className={`text-sm font-medium transition-colors ${done ? 'text-slate-200' : 'text-slate-500'}`}>
+      <span className={`text-sm font-medium transition-colors ${done ? 'fp-text' : 'fp-text-dim'}`}>
         {label}
       </span>
       {done && (
         <span className="ml-auto text-[10px] font-bold px-2 py-0.5 rounded-full"
-          style={{ background: 'rgba(139,92,246,0.12)', color: '#a78bfa' }}>
+          style={{ background: 'rgba(220,38,38,0.12)', color: '#f87171' }}>
           Done
         </span>
       )}
@@ -112,44 +114,45 @@ const Dashboard = () => {
   };
 
   const progressItems = [
-    { label: 'Personal info',  done: !!(portfolio?.personalInfo?.name) },
+    { label: 'Personal info',   done: !!(portfolio?.personalInfo?.name) },
     { label: 'Work experience', done: portfolio?.experience?.length > 0 },
-    { label: 'Education',      done: portfolio?.education?.length > 0 },
-    { label: 'Skills',         done: portfolio?.skills?.length > 0 },
-    { label: 'Projects',       done: portfolio?.projects?.length > 0 },
-    { label: 'Social links',   done: !!(portfolio?.socialLinks?.github || portfolio?.socialLinks?.linkedin) },
+    { label: 'Education',       done: portfolio?.education?.length > 0 },
+    { label: 'Skills',          done: portfolio?.skills?.length > 0 },
+    { label: 'Projects',        done: portfolio?.projects?.length > 0 },
+    { label: 'Social links',    done: !!(portfolio?.socialLinks?.github || portfolio?.socialLinks?.linkedin) },
   ];
   const doneCount = progressItems.filter(p => p.done).length;
   const pct = Math.round((doneCount / progressItems.length) * 100);
 
   if (loading) {
     return (
-      <div className="page-space min-h-screen flex items-center justify-center">
-        <div className="w-10 h-10 rounded-full border-2 border-purple-500 border-t-transparent animate-spin" />
+      <div className="fp-page min-h-screen flex items-center justify-center">
+        <div className="w-10 h-10 rounded-full border-2 border-red-500 border-t-transparent animate-spin" />
       </div>
     );
   }
 
   return (
-    <div className="page-space min-h-screen text-white font-sans selection:bg-purple-500/30">
+    <div className="fp-page min-h-screen font-sans selection:bg-purple-500/30">
 
       {/* ── Nav ── */}
-      <nav className="sticky top-0 z-40 border-b border-white/5 bg-black/50 backdrop-blur-xl">
+      <nav className="fp-nav sticky top-0 z-40">
         <div className="max-w-7xl mx-auto px-6 lg:px-10 h-16 flex items-center justify-between">
 
           <Link to="/" className="flex items-center gap-2.5">
             <Logo size={32} />
-            <span className="font-bold font-outfit text-lg hidden sm:block">
+            <span className="font-bold font-outfit text-lg hidden sm:block fp-text">
               First<span className="text-gradient">Portfolio</span>
             </span>
           </Link>
 
           <div className="flex items-center gap-3">
             <ThemeToggle />
+
             {/* Avatar chip */}
             <div
-              className="flex items-center gap-2 px-3 py-1.5 rounded-full border border-white/8"
-              style={{ background: 'rgba(139,92,246,0.08)' }}
+              className="flex items-center gap-2 px-3 py-1.5 rounded-full fp-border border"
+              style={{ background: 'rgba(220,38,38,0.08)' }}
             >
               <div
                 className="w-6 h-6 rounded-full flex items-center justify-center text-[11px] font-bold text-white"
@@ -157,12 +160,12 @@ const Dashboard = () => {
               >
                 {user?.name?.charAt(0)?.toUpperCase()}
               </div>
-              <span className="text-sm font-medium text-slate-300 hidden sm:block">{user?.name}</span>
+              <span className="text-sm font-medium fp-text-muted hidden sm:block">{user?.name}</span>
             </div>
 
             <button
               onClick={handleLogout}
-              className="p-2 text-slate-500 hover:text-white hover:bg-white/5 rounded-xl transition-all"
+              className="p-2 fp-text-dim hover:fp-text rounded-xl transition-all hover:bg-red-500/10"
               title="Logout"
             >
               <LogOut className="w-4 h-4" />
@@ -181,16 +184,12 @@ const Dashboard = () => {
           className="flex flex-col sm:flex-row sm:items-center justify-between gap-6 mb-10"
         >
           <div>
-            <p className="text-sm text-slate-500 mb-1">Welcome back,</p>
-            <h1 className="text-3xl font-bold font-outfit">
+            <p className="text-sm fp-text-muted mb-1">Welcome back,</p>
+            <h1 className="text-3xl font-bold font-outfit fp-text">
               {user?.name?.split(' ')[0]} 👋
             </h1>
           </div>
-
-          <Link
-            to="/editor"
-            className="btn-primary self-start sm:self-auto"
-          >
+          <Link to="/editor" className="btn-primary self-start sm:self-auto">
             {portfolio ? <Edit3 className="w-4 h-4" /> : <Plus className="w-4 h-4" />}
             {portfolio ? 'Edit Portfolio' : 'Create Portfolio'}
             <ArrowRight className="w-4 h-4" />
@@ -199,10 +198,10 @@ const Dashboard = () => {
 
         {/* ── Stats row ── */}
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-          <StatCard icon={<Layout />}   label="Template"      value={portfolio?.templateId || '—'}  color="#a855f7" delay={0.05} />
-          <StatCard icon={<Globe />}    label="Status"        value={portfolio?.settings?.isPublic ? 'Public' : 'Private'} color="#10b981" delay={0.10} />
-          <StatCard icon={<Zap />}      label="Sections done" value={`${doneCount} / ${progressItems.length}`} color="#6366f1" delay={0.15} />
-          <StatCard icon={<BarChart3 />} label="Completion"   value={`${pct}%`}                     color="#ec4899" delay={0.20} />
+          <StatCard icon={<Layout />}    label="Template"      value={portfolio?.templateId || '—'}                        color="#dc2626" delay={0.05} />
+          <StatCard icon={<Globe />}     label="Status"        value={portfolio?.settings?.isPublic ? 'Public' : 'Private'} color="#10b981" delay={0.10} />
+          <StatCard icon={<Zap />}       label="Sections done" value={`${doneCount} / ${progressItems.length}`}             color="#9333ea" delay={0.15} />
+          <StatCard icon={<BarChart3 />} label="Completion"    value={`${pct}%`}                                            color="#ec4899" delay={0.20} />
         </div>
 
         {/* ── Main grid ── */}
@@ -213,69 +212,52 @@ const Dashboard = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.25, duration: 0.6 }}
-            className="lg:col-span-2 auth-card p-8 relative overflow-hidden"
+            className="lg:col-span-2 fp-card p-8 relative overflow-hidden"
           >
-            {/* Background glow */}
-            <div
-              className="absolute -top-10 -right-10 w-48 h-48 rounded-full blur-3xl pointer-events-none"
-              style={{ background: 'rgba(139,92,246,0.12)' }}
-            />
+            <div className="absolute -top-10 -right-10 w-48 h-48 rounded-full blur-3xl pointer-events-none"
+              style={{ background: 'rgba(220,38,38,0.08)' }} />
 
             <div className="relative z-10">
               <div className="flex items-center gap-2 mb-5">
-                <span
-                  className="w-2 h-2 rounded-full animate-pulse"
-                  style={{ background: portfolio ? '#10b981' : '#f59e0b' }}
-                />
-                <span className="text-xs font-bold uppercase tracking-widest text-slate-400">
+                <span className="w-2 h-2 rounded-full animate-pulse"
+                  style={{ background: portfolio ? '#10b981' : '#f59e0b' }} />
+                <span className="text-xs font-bold uppercase tracking-widest fp-text-muted">
                   {portfolio ? 'Portfolio Live' : 'Not Published'}
                 </span>
               </div>
 
               {portfolio ? (
                 <>
-                  <h2 className="text-2xl font-bold font-outfit mb-2">
-                    Your portfolio is{' '}
-                    <span className="text-gradient">live!</span>
+                  <h2 className="text-2xl font-bold font-outfit fp-text mb-2">
+                    Your portfolio is <span className="text-gradient">live!</span>
                   </h2>
-                  <p className="text-slate-400 text-sm mb-6">
+                  <p className="fp-text-muted text-sm mb-6">
                     Share this link with recruiters and on your resume.
                   </p>
-
-                  {/* URL bar */}
-                  <div
-                    className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 p-3 rounded-2xl border border-white/8 mb-4"
-                    style={{ background: 'rgba(255,255,255,0.03)' }}
-                  >
-                    <span className="flex-1 text-sm font-mono text-slate-300 px-2 truncate">
+                  <div className="fp-url-bar flex flex-col sm:flex-row items-stretch sm:items-center gap-3 p-3 mb-4">
+                    <span className="flex-1 text-sm font-mono fp-text-muted px-2 truncate">
                       {window.location.origin}/u/{user?.username}
                     </span>
                     <div className="flex gap-2 shrink-0">
-                      <a
-                        href={`/u/${user?.username}`}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="btn-ghost py-2 px-4 text-sm"
-                      >
+                      <a href={`/u/${user?.username}`} target="_blank" rel="noopener noreferrer"
+                        className="btn-ghost py-2 px-4 text-sm">
                         <Eye className="w-4 h-4" /> View
                       </a>
                       <button onClick={handleCopy} className="btn-ghost py-2 px-4 text-sm">
                         {copied
-                          ? <><Check className="w-4 h-4 text-green-400" /> Copied!</>
-                          : <><Copy className="w-4 h-4" /> Copy</>
-                        }
+                          ? <><Check className="w-4 h-4 text-green-500" /> Copied!</>
+                          : <><Copy className="w-4 h-4" /> Copy</>}
                       </button>
                     </div>
                   </div>
                 </>
               ) : (
                 <>
-                  <h2 className="text-2xl font-bold font-outfit mb-3">
+                  <h2 className="text-2xl font-bold font-outfit fp-text mb-3">
                     You haven't built your portfolio yet.
                   </h2>
-                  <p className="text-slate-400 text-sm mb-6 max-w-md">
+                  <p className="fp-text-muted text-sm mb-6 max-w-md">
                     Get started by choosing a template and adding your details.
-                    It only takes a few minutes.
                   </p>
                   <Link to="/editor" className="btn-primary self-start">
                     <Sparkles className="w-4 h-4" /> Start building
@@ -290,20 +272,18 @@ const Dashboard = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.3, duration: 0.6 }}
-            className="auth-card p-7"
+            className="fp-card p-7"
           >
             <div className="flex items-center justify-between mb-5">
-              <h3 className="font-bold font-outfit">Setup Progress</h3>
-              <span
-                className="text-xs font-bold px-2.5 py-1 rounded-full"
-                style={{ background: 'rgba(139,92,246,0.12)', color: '#a78bfa' }}
-              >
+              <h3 className="font-bold font-outfit fp-text">Setup Progress</h3>
+              <span className="text-xs font-bold px-2.5 py-1 rounded-full"
+                style={{ background: 'rgba(220,38,38,0.12)', color: '#f87171' }}>
                 {pct}%
               </span>
             </div>
 
             {/* Progress bar */}
-            <div className="w-full h-1.5 rounded-full mb-6" style={{ background: 'rgba(255,255,255,0.06)' }}>
+            <div className="w-full h-1.5 rounded-full mb-6 fp-progress-track">
               <motion.div
                 initial={{ width: 0 }}
                 animate={{ width: `${pct}%` }}
@@ -325,7 +305,7 @@ const Dashboard = () => {
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ delay: 0.8 }}
                 className="mt-5 p-3 rounded-xl text-center text-sm font-semibold"
-                style={{ background: 'rgba(139,92,246,0.1)', color: '#c4b5fd', border: '1px solid rgba(139,92,246,0.2)' }}
+                style={{ background: 'rgba(220,38,38,0.10)', color: '#f87171', border: '1px solid rgba(220,38,38,0.20)' }}
               >
                 🎉 Portfolio 100% complete!
               </motion.div>
@@ -337,44 +317,32 @@ const Dashboard = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.35, duration: 0.6 }}
-            className="lg:col-span-2 auth-card p-7"
+            className="lg:col-span-2 fp-card p-7"
           >
-            <h3 className="font-bold font-outfit mb-5">Quick Actions</h3>
+            <h3 className="font-bold font-outfit fp-text mb-5">Quick Actions</h3>
             <div className="grid sm:grid-cols-3 gap-3">
               {[
-                { label: 'Edit Portfolio',  icon: <Edit3 className="w-5 h-5" />,  color: '#a855f7', to: '/editor' },
-                { label: 'View Live',       icon: <Eye className="w-5 h-5" />,    color: '#6366f1', to: `/u/${user?.username}` },
-                { label: 'Copy URL',        icon: <Copy className="w-5 h-5" />,   color: '#ec4899', action: handleCopy },
+                { label: 'Edit Portfolio', icon: <Edit3 className="w-5 h-5" />, color: '#dc2626', to: '/editor' },
+                { label: 'View Live',      icon: <Eye className="w-5 h-5" />,   color: '#9333ea', to: `/u/${user?.username}` },
+                { label: 'Copy URL',       icon: <Copy className="w-5 h-5" />,  color: '#ec4899', action: handleCopy },
               ].map((a) => (
                 a.to ? (
-                  <Link
-                    key={a.label}
-                    to={a.to}
-                    className="flex flex-col items-center gap-2.5 p-5 rounded-2xl border border-white/6 hover:border-white/12 transition-all group hover:-translate-y-0.5"
-                    style={{ background: 'rgba(255,255,255,0.02)' }}
-                  >
-                    <div
-                      className="w-10 h-10 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform"
-                      style={{ background: `${a.color}18`, color: a.color }}
-                    >
+                  <Link key={a.label} to={a.to}
+                    className="flex flex-col items-center gap-2.5 p-5 rounded-2xl fp-border border hover:border-red-500/30 transition-all group hover:-translate-y-0.5 fp-inner-card">
+                    <div className="w-10 h-10 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform"
+                      style={{ background: `${a.color}18`, color: a.color }}>
                       {a.icon}
                     </div>
-                    <span className="text-sm font-medium text-slate-300">{a.label}</span>
+                    <span className="text-sm font-medium fp-text-muted">{a.label}</span>
                   </Link>
                 ) : (
-                  <button
-                    key={a.label}
-                    onClick={a.action}
-                    className="flex flex-col items-center gap-2.5 p-5 rounded-2xl border border-white/6 hover:border-white/12 transition-all group hover:-translate-y-0.5"
-                    style={{ background: 'rgba(255,255,255,0.02)' }}
-                  >
-                    <div
-                      className="w-10 h-10 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform"
-                      style={{ background: `${a.color}18`, color: a.color }}
-                    >
+                  <button key={a.label} onClick={a.action}
+                    className="flex flex-col items-center gap-2.5 p-5 rounded-2xl fp-border border hover:border-red-500/30 transition-all group hover:-translate-y-0.5 fp-inner-card">
+                    <div className="w-10 h-10 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform"
+                      style={{ background: `${a.color}18`, color: a.color }}>
                       {a.icon}
                     </div>
-                    <span className="text-sm font-medium text-slate-300">{a.label}</span>
+                    <span className="text-sm font-medium fp-text-muted">{a.label}</span>
                   </button>
                 )
               ))}
@@ -386,40 +354,35 @@ const Dashboard = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.4, duration: 0.6 }}
-            className="auth-card p-7"
+            className="fp-card p-7"
           >
-            <h3 className="font-bold font-outfit mb-5">Account</h3>
+            <h3 className="font-bold font-outfit fp-text mb-5">Account</h3>
             <div className="flex flex-col gap-4">
               <div className="flex items-center gap-3">
-                <div
-                  className="w-12 h-12 rounded-full flex items-center justify-center text-lg font-bold text-white shrink-0"
-                  style={{ background: 'linear-gradient(135deg,#dc2626,#db2777)' }}
-                >
+                <div className="w-12 h-12 rounded-full flex items-center justify-center text-lg font-bold text-white shrink-0"
+                  style={{ background: 'linear-gradient(135deg,#dc2626,#db2777)' }}>
                   {user?.name?.charAt(0)?.toUpperCase()}
                 </div>
                 <div className="min-w-0">
-                  <p className="font-semibold truncate">{user?.name}</p>
-                  <p className="text-xs text-slate-500 truncate">@{user?.username}</p>
+                  <p className="font-semibold fp-text truncate">{user?.name}</p>
+                  <p className="text-xs fp-text-muted truncate">@{user?.username}</p>
                 </div>
               </div>
 
-              <div className="border-t border-white/5 pt-4 space-y-2.5">
+              <div className="fp-divider border-t pt-4 space-y-2.5">
                 {[
                   { label: 'Email',    value: user?.email },
                   { label: 'Username', value: `@${user?.username}` },
                   { label: 'Plan',     value: user?.isPremium ? 'Premium ✨' : 'Free' },
                 ].map(({ label, value }) => (
                   <div key={label} className="flex justify-between items-center">
-                    <span className="text-xs text-slate-500">{label}</span>
-                    <span className="text-xs font-medium text-slate-300 truncate max-w-[60%] text-right">{value}</span>
+                    <span className="text-xs fp-text-dim">{label}</span>
+                    <span className="text-xs font-medium fp-text-muted truncate max-w-[60%] text-right">{value}</span>
                   </div>
                 ))}
               </div>
 
-              <button
-                onClick={handleLogout}
-                className="btn-ghost w-full py-2.5 text-sm mt-1"
-              >
+              <button onClick={handleLogout} className="btn-ghost w-full py-2.5 text-sm mt-1">
                 <LogOut className="w-4 h-4" /> Sign out
               </button>
             </div>

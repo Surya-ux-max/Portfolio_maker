@@ -406,6 +406,137 @@ body {
 .animate-spin-slow { animation: spin-slow 12s linear infinite; }
 
 /* ═══════════════════════════════════════════════════════════════════════════
+   THEME-AWARE UTILITY CLASSES
+   Use these instead of hardcoded Tailwind dark colors in Dashboard/Editor
+═══════════════════════════════════════════════════════════════════════════ */
+
+/* Page wrapper */
+.fp-page {
+  min-height: 100vh;
+  background-color: var(--clr-bg);
+  color: var(--clr-text);
+  transition: background-color 0.35s ease, color 0.35s ease;
+}
+
+/* Navigation bar */
+.fp-nav {
+  background: var(--clr-nav-bg);
+  border-bottom: 1px solid var(--clr-nav-border);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  transition: background 0.35s ease, border-color 0.35s ease;
+}
+
+/* Sidebar */
+.fp-sidebar {
+  background: var(--clr-surface-1);
+  border-right: 1px solid var(--clr-border);
+  transition: background 0.35s ease, border-color 0.35s ease;
+}
+
+/* Generic surface card */
+.fp-card {
+  background: var(--clr-surface-card);
+  border: 1px solid var(--clr-border);
+  border-radius: var(--radius-card);
+  transition: background 0.35s ease, border-color 0.35s ease;
+}
+
+/* Inner card (used in Editor form sections) */
+.fp-inner-card {
+  background: var(--clr-surface-2);
+  border: 1px solid var(--clr-border);
+  border-radius: 1rem;
+  transition: background 0.35s ease, border-color 0.35s ease;
+}
+
+/* Text helpers */
+.fp-text         { color: var(--clr-text);       transition: color 0.35s ease; }
+.fp-text-muted   { color: var(--clr-text-muted); transition: color 0.35s ease; }
+.fp-text-dim     { color: var(--clr-text-dim);   transition: color 0.35s ease; }
+
+/* Border */
+.fp-border       { border-color: var(--clr-border); }
+
+/* Sidebar nav item */
+.fp-nav-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.625rem 0.75rem;
+  border-radius: 0.75rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  width: 100%;
+  text-align: left;
+  color: var(--clr-text-muted);
+  border-left: 2px solid transparent;
+  transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+.fp-nav-item:hover {
+  background: var(--clr-surface-2);
+  color: var(--clr-text);
+}
+.fp-nav-item.active {
+  background: rgba(220, 38, 38, 0.10);
+  color: var(--clr-text);
+  border-left-color: #dc2626;
+}
+
+/* Progress bar track */
+.fp-progress-track {
+  background: var(--clr-border);
+}
+
+/* URL bar / code block */
+.fp-url-bar {
+  background: var(--clr-surface-2);
+  border: 1px solid var(--clr-border);
+  border-radius: 1rem;
+  transition: background 0.35s ease;
+}
+
+/* Divider */
+.fp-divider {
+  border-color: var(--clr-border);
+}
+
+/* Header */
+.fp-header {
+  background: var(--clr-nav-bg);
+  border-bottom: 1px solid var(--clr-nav-border);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  transition: background 0.35s ease, border-color 0.35s ease;
+}
+
+/* Label in forms */
+.fp-label {
+  display: block;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--clr-text-dim);
+  margin-bottom: 0.375rem;
+  transition: color 0.35s ease;
+}
+
+/* Select background fix for light mode */
+.fp-select {
+  background: var(--clr-surface-2);
+  color: var(--clr-text);
+}
+.mesh-gradient-light {
+  background-color: #f8fafc;
+  background-image:
+    radial-gradient(at 0%   0%,   rgba(99,102,241,0.10) 0px, transparent 50%),
+    radial-gradient(at 100% 0%,   rgba(168,85,247,0.10) 0px, transparent 50%),
+    radial-gradient(at 100% 100%, rgba(236,72,153,0.10) 0px, transparent 50%),
+    radial-gradient(at 0%   100%, rgba(59,130,246,0.10) 0px, transparent 50%);
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
    MESH GRADIENT LIGHT  (legacy)
 ═══════════════════════════════════════════════════════════════════════════ */
 .mesh-gradient-light {

@@ -13,7 +13,7 @@ import {
 /* ─── Shared reusable input components ──────────────────────────────────── */
 export function Label({ children }) {
   return (
-    <label className="block text-xs font-semibold uppercase tracking-widest text-slate-500 mb-1.5">
+    <label className="fp-label">
       {children}
     </label>
   );
@@ -41,8 +41,7 @@ export function Select({ className = '', children, ...props }) {
   return (
     <select
       {...props}
-      className={`fp-input ${className}`}
-      style={{ background: 'rgba(255,255,255,0.04)' }}
+      className={`fp-input fp-select ${className}`}
     >
       {children}
     </select>
@@ -53,8 +52,8 @@ export function SectionHeader({ title, desc, action }) {
   return (
     <div className="flex items-start justify-between gap-4 mb-6">
       <div>
-        <h2 className="text-xl font-bold font-outfit mb-1">{title}</h2>
-        {desc && <p className="text-sm text-slate-500">{desc}</p>}
+        <h2 className="text-xl font-bold font-outfit fp-text mb-1">{title}</h2>
+        {desc && <p className="text-sm fp-text-muted">{desc}</p>}
       </div>
       {action}
     </div>
@@ -91,7 +90,7 @@ export function RemoveButton({ onClick }) {
 
 export function EmptyState({ icon: Icon, message }) {
   return (
-    <div className="flex flex-col items-center justify-center py-16 text-slate-600">
+    <div className="flex flex-col items-center justify-center py-16 fp-text-dim">
       <Icon className="w-12 h-12 mb-3 opacity-20" />
       <p className="text-sm">{message}</p>
     </div>
@@ -100,10 +99,7 @@ export function EmptyState({ icon: Icon, message }) {
 
 export function Card({ children, className = '' }) {
   return (
-    <div
-      className={`relative rounded-2xl border border-white/6 p-6 ${className}`}
-      style={{ background: 'rgba(8,4,20,0.7)', backdropFilter: 'blur(12px)' }}
-    >
+    <div className={`relative fp-inner-card p-6 ${className}`}>
       {children}
     </div>
   );
@@ -210,25 +206,22 @@ const Editor = () => {
   }
 
   return (
-    <div className="bg-black min-h-screen text-white font-sans flex flex-col h-screen overflow-hidden">
+    <div className="fp-page min-h-screen font-sans flex flex-col h-screen overflow-hidden">
 
       {/* ════════════════════════════════════════════════════════════════════
           HEADER
       ════════════════════════════════════════════════════════════════════ */}
-      <header
-        className="h-14 shrink-0 flex items-center justify-between px-5 border-b border-white/5 z-50"
-        style={{ background: 'rgba(0,0,0,0.85)', backdropFilter: 'blur(20px)' }}
-      >
+      <header className="fp-header h-14 shrink-0 flex items-center justify-between px-5 z-50">
         {/* Left */}
         <div className="flex items-center gap-3">
           <button
             onClick={() => navigate('/dashboard')}
-            className="p-1.5 rounded-xl text-slate-400 hover:text-white hover:bg-white/5 transition-all"
+            className="p-1.5 rounded-xl fp-text-muted hover:fp-text hover:bg-red-500/10 transition-all"
           >
             <ChevronLeft className="w-5 h-5" />
           </button>
           <div className="w-px h-5 bg-white/8" />
-          <span className="font-bold font-outfit text-base hidden sm:block">Portfolio Editor</span>
+          <span className="font-bold font-outfit text-base hidden sm:block fp-text">Portfolio Editor</span>
         </div>
 
         {/* Right */}
@@ -278,10 +271,7 @@ const Editor = () => {
       <div className="flex flex-1 overflow-hidden">
 
         {/* ── Sidebar nav ── */}
-        <aside
-          className="w-14 sm:w-52 shrink-0 flex flex-col border-r border-white/5 overflow-y-auto no-scrollbar"
-          style={{ background: 'rgba(4,2,12,0.9)' }}
-        >
+        <aside className="fp-sidebar w-14 sm:w-52 shrink-0 flex flex-col overflow-y-auto no-scrollbar">
           <nav className="flex flex-col gap-1 p-2 pt-4">
             {TABS.map(({ id, label, icon: Icon }) => {
               const active = activeTab === id;
@@ -289,14 +279,7 @@ const Editor = () => {
                 <button
                   key={id}
                   onClick={() => setActiveTab(id)}
-                  className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all text-left w-full"
-                  style={{
-                    background: active ? 'rgba(139,92,246,0.12)' : 'transparent',
-                    color:      active ? '#c4b5fd' : '#64748b',
-                    borderLeft: active ? '2px solid #9333ea' : '2px solid transparent',
-                  }}
-                  onMouseEnter={e => { if (!active) e.currentTarget.style.background = 'rgba(255,255,255,0.03)'; }}
-                  onMouseLeave={e => { if (!active) e.currentTarget.style.background = 'transparent'; }}
+                  className={`fp-nav-item ${active ? 'active' : ''}`}
                 >
                   <Icon className="w-4 h-4 shrink-0" />
                   <span className="hidden sm:block">{label}</span>
@@ -307,7 +290,7 @@ const Editor = () => {
         </aside>
 
         {/* ── Main content area — filled by Tasks 2-5 ── */}
-        <main className="flex-1 overflow-y-auto custom-scrollbar p-6 lg:p-8">
+        <main className="fp-page flex-1 overflow-y-auto custom-scrollbar p-6 lg:p-8">
           <div className="max-w-2xl mx-auto">
             <AnimatePresence mode="wait">
               {/* TABS CONTENT GOES HERE — Tasks 2-5 */}
@@ -740,8 +723,8 @@ function SettingsTab({ settings, templateId, onSettingChange, onTemplateChange }
       <Card>
         <div className="flex items-center justify-between">
           <div>
-            <p className="font-semibold mb-0.5">Public Portfolio</p>
-            <p className="text-sm text-slate-500">Anyone with your link can view it</p>
+          <p className="font-semibold mb-0.5 fp-text">Public Portfolio</p>
+            <p className="text-sm fp-text-muted">Anyone with your link can view it</p>
           </div>
           <button
             onClick={() => onSettingChange('isPublic', !settings.isPublic)}
@@ -758,23 +741,22 @@ function SettingsTab({ settings, templateId, onSettingChange, onTemplateChange }
 
       {/* Theme */}
       <Card>
-        <p className="font-semibold mb-4">Portfolio Theme</p>
+        <p className="font-semibold mb-4 fp-text">Portfolio Theme</p>
         <div className="grid grid-cols-2 gap-3">
           {['light','dark'].map(t => (
             <button
-              key={t}
               onClick={() => onSettingChange('theme', t)}
-              className="p-4 rounded-xl border-2 transition-all text-left"
+              className="p-4 rounded-xl border-2 transition-all text-left fp-text"
               style={{
-                borderColor: settings.theme === t ? '#9333ea' : 'rgba(255,255,255,0.06)',
-                background:  settings.theme === t ? 'rgba(139,92,246,0.08)' : 'rgba(255,255,255,0.02)',
+                borderColor: settings.theme === t ? '#dc2626' : 'var(--clr-border)',
+                background:  settings.theme === t ? 'rgba(220,38,38,0.08)' : 'var(--clr-surface-2)',
               }}
             >
               <div
                 className="w-full h-14 rounded-lg mb-3"
                 style={{ background: t === 'light' ? '#f8fafc' : '#0f172a' }}
               />
-              <p className="text-sm font-medium capitalize">{t}</p>
+              <p className="text-sm font-medium capitalize fp-text">{t}</p>
             </button>
           ))}
         </div>
@@ -782,7 +764,7 @@ function SettingsTab({ settings, templateId, onSettingChange, onTemplateChange }
 
       {/* Template */}
       <Card>
-        <p className="font-semibold mb-4">Template</p>
+        <p className="font-semibold mb-4 fp-text">Template</p>
         <div className="space-y-3">
           {templates.map(tmpl => (
             <button
@@ -790,22 +772,22 @@ function SettingsTab({ settings, templateId, onSettingChange, onTemplateChange }
               onClick={() => onTemplateChange(tmpl.id)}
               className="w-full flex items-center gap-4 p-4 rounded-xl border-2 transition-all text-left"
               style={{
-                borderColor: templateId === tmpl.id ? '#9333ea' : 'rgba(255,255,255,0.06)',
-                background:  templateId === tmpl.id ? 'rgba(139,92,246,0.08)' : 'rgba(255,255,255,0.02)',
+                borderColor: templateId === tmpl.id ? '#dc2626' : 'var(--clr-border)',
+                background:  templateId === tmpl.id ? 'rgba(220,38,38,0.08)' : 'var(--clr-surface-2)',
               }}
             >
               {/* Radio dot */}
               <div
                 className="w-4 h-4 rounded-full border-2 flex items-center justify-center shrink-0"
-                style={{ borderColor: templateId === tmpl.id ? '#9333ea' : 'rgba(255,255,255,0.2)' }}
+                style={{ borderColor: templateId === tmpl.id ? '#dc2626' : 'var(--clr-border)' }}
               >
                 {templateId === tmpl.id && (
-                  <div className="w-2 h-2 rounded-full" style={{ background: '#9333ea' }} />
+                  <div className="w-2 h-2 rounded-full" style={{ background: '#dc2626' }} />
                 )}
               </div>
               <div>
-                <p className="text-sm font-semibold">{tmpl.label}</p>
-                <p className="text-xs text-slate-500">{tmpl.desc}</p>
+                <p className="text-sm font-semibold fp-text">{tmpl.label}</p>
+                <p className="text-xs fp-text-muted">{tmpl.desc}</p>
               </div>
             </button>
           ))}
