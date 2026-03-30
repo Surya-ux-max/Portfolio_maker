@@ -13,7 +13,7 @@ function Logo({ size = 36 }) {
     <svg width={size} height={size} viewBox="0 0 40 40" fill="none">
       <defs>
         <linearGradient id="rl1" x1="0" y1="0" x2="40" y2="40" gradientUnits="userSpaceOnUse">
-          <stop offset="0%"   stopColor="#7c3aed" />
+          <stop offset="0%"   stopColor="#dc2626" />
           <stop offset="50%"  stopColor="#9333ea" />
           <stop offset="100%" stopColor="#db2777" />
         </linearGradient>
@@ -123,9 +123,9 @@ const Register = () => {
     <div className="page-space min-h-screen flex">
 
       {/* Orbs */}
-      <Orb className="glow-orb-purple w-80 h-80 -top-10 -right-10 opacity-50" />
-      <Orb className="glow-orb-pink   w-96 h-96 bottom-0 left-0 opacity-35" />
-      <Orb className="glow-orb-blue   w-56 h-56 top-1/3 right-1/3 opacity-25" />
+      <Orb className="glow-orb-red    w-80 h-80 -top-10 -right-10 opacity-45" />
+      <Orb className="glow-orb-purple w-96 h-96 bottom-0 left-0 opacity-30" />
+      <Orb className="glow-orb-pink   w-56 h-56 top-1/3 right-1/3 opacity-20" />
 
       {/* ════════════════════════════════════════════════════════════════════
           LEFT PANEL
@@ -171,7 +171,7 @@ const Register = () => {
                 transition={{ delay: 0.35 + i * 0.08, duration: 0.5 }}
                 className="flex items-center gap-3 text-sm text-slate-300"
               >
-                <CheckCircle2 className="w-4 h-4 text-purple-400 shrink-0" />
+                <CheckCircle2 className="w-4 h-4 text-red-400 shrink-0" />
                 {p}
               </motion.li>
             ))}
@@ -220,7 +220,7 @@ const Register = () => {
               <h2 className="text-2xl font-bold font-outfit mb-1.5">Create your account</h2>
               <p className="text-slate-400 text-sm">
                 Already have one?{' '}
-                <Link to="/login" className="text-purple-400 hover:text-purple-300 font-medium transition-colors">
+                <Link to="/login" className="text-red-400 hover:text-red-300 font-medium transition-colors">
                   Sign in
                 </Link>
               </p>
@@ -297,9 +297,9 @@ const Register = () => {
                 />
                 <span className="text-xs text-slate-400 leading-relaxed">
                   I agree to the{' '}
-                  <a href="#" className="text-purple-400 hover:text-purple-300 transition-colors">Terms of Service</a>
+                  <a href="#" className="text-red-400 hover:text-red-300 transition-colors">Terms of Service</a>
                   {' '}and{' '}
-                  <a href="#" className="text-purple-400 hover:text-purple-300 transition-colors">Privacy Policy</a>
+                  <a href="#" className="text-red-400 hover:text-red-300 transition-colors">Privacy Policy</a>
                 </span>
               </label>
 

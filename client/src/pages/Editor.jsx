@@ -66,7 +66,7 @@ export function AddButton({ onClick, label = 'Add' }) {
       onClick={onClick}
       className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full text-sm font-semibold text-white shrink-0 transition-all"
       style={{
-        background: 'linear-gradient(135deg,#6d28d9,#9333ea)',
+        background: 'linear-gradient(135deg,#dc2626,#9333ea)',
         boxShadow: '0 0 16px rgba(139,92,246,0.3)',
       }}
     >
@@ -744,7 +744,7 @@ function SettingsTab({ settings, templateId, onSettingChange, onTemplateChange }
           <button
             onClick={() => onSettingChange('isPublic', !settings.isPublic)}
             className="relative w-12 h-6 rounded-full transition-all duration-300 shrink-0"
-            style={{ background: settings.isPublic ? 'linear-gradient(135deg,#6d28d9,#9333ea)' : 'rgba(255,255,255,0.08)' }}
+            style={{ background: settings.isPublic ? 'linear-gradient(135deg,#dc2626,#9333ea)' : 'rgba(255,255,255,0.08)' }}
           >
             <div
               className="absolute top-1 w-4 h-4 bg-white rounded-full shadow transition-all duration-300"

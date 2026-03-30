@@ -57,16 +57,18 @@ const AccretionMaterial = shaderMaterial(
      // Hot filament lanes
      brightness += smoothstep(0.70, 0.76, n) * (1.0 - r) * 3.0;
 
-     // Color ramp: white-hot → vivid purple → deep indigo → magenta-pink
-     vec3 c0 = vec3(1.00, 0.96, 1.00);
-     vec3 c1 = vec3(0.85, 0.18, 1.00);
-     vec3 c2 = vec3(0.28, 0.05, 0.90);
-     vec3 c3 = vec3(0.80, 0.04, 0.52);
+     // Color ramp: white-hot → deep red → vivid purple → deep indigo → magenta-pink
+     vec3 c0 = vec3(1.00, 0.96, 0.90);  // white-hot
+     vec3 c1 = vec3(1.00, 0.15, 0.08);  // deep red / lava
+     vec3 c2 = vec3(0.75, 0.08, 0.85);  // vivid purple
+     vec3 c3 = vec3(0.28, 0.05, 0.90);  // deep indigo
+     vec3 c4 = vec3(0.80, 0.04, 0.52);  // magenta-pink
      vec3 col;
-     if      (r < 0.15) col = mix(c0, c1, r / 0.15);
-     else if (r < 0.38) col = mix(c1, c2, (r - 0.15) / 0.23);
-     else if (r < 0.65) col = mix(c2, c3, (r - 0.38) / 0.27);
-     else               col = mix(c3, c3 * 0.25, (r - 0.65) / 0.35);
+     if      (r < 0.12) col = mix(c0, c1, r / 0.12);
+     else if (r < 0.30) col = mix(c1, c2, (r - 0.12) / 0.18);
+     else if (r < 0.55) col = mix(c2, c3, (r - 0.30) / 0.25);
+     else if (r < 0.80) col = mix(c3, c4, (r - 0.55) / 0.25);
+     else               col = mix(c4, c4 * 0.20, (r - 0.80) / 0.20);
      col *= brightness;
 
      // Alpha — fade inner gap and outer edge
@@ -200,10 +202,10 @@ function PhotonRings() {
 function LensingHalos() {
   // Tubes thinned — were too fat and muddy at old scale
   const halos = [
-    { r: HORIZON_R * 1.38, tube: HORIZON_R * 0.12, col: 0x9933ff, op: 0.28 },
-    { r: HORIZON_R * 1.75, tube: HORIZON_R * 0.18, col: 0x6611cc, op: 0.18 },
-    { r: HORIZON_R * 2.30, tube: HORIZON_R * 0.28, col: 0x330088, op: 0.10 },
-    { r: HORIZON_R * 3.20, tube: HORIZON_R * 0.40, col: 0x1a0044, op: 0.05 },
+    { r: HORIZON_R * 1.38, tube: HORIZON_R * 0.12, col: 0xcc1111, op: 0.30 },  // red inner
+    { r: HORIZON_R * 1.75, tube: HORIZON_R * 0.18, col: 0x9933ff, op: 0.18 },  // purple
+    { r: HORIZON_R * 2.30, tube: HORIZON_R * 0.28, col: 0x550022, op: 0.12 },  // dark red-purple
+    { r: HORIZON_R * 3.20, tube: HORIZON_R * 0.40, col: 0x1a0008, op: 0.05 },  // deep dark
   ];
   return (
     <group rotation={[Math.PI / 2, 0, 0]}>
@@ -224,9 +226,9 @@ function LensingHalos() {
 // ─── Streak Rings (lensed light arcs) ────────────────────────────────────────
 function StreakRings() {
   const rings = [
-    { r: HORIZON_R * 1.55, tube: HORIZON_R * 0.018, rx: Math.PI * 0.38, rz:  0.10, col: 0xcc44ff, op: 0.40 },
-    { r: HORIZON_R * 1.63, tube: HORIZON_R * 0.012, rx: Math.PI * 0.42, rz: -0.08, col: 0xff66cc, op: 0.28 },
-    { r: HORIZON_R * 1.48, tube: HORIZON_R * 0.015, rx: Math.PI * 0.32, rz:  0.15, col: 0x8844ff, op: 0.32 },
+    { r: HORIZON_R * 1.55, tube: HORIZON_R * 0.018, rx: Math.PI * 0.38, rz:  0.10, col: 0xff2200, op: 0.45 },  // red arc
+    { r: HORIZON_R * 1.63, tube: HORIZON_R * 0.012, rx: Math.PI * 0.42, rz: -0.08, col: 0xff66cc, op: 0.28 },  // pink arc
+    { r: HORIZON_R * 1.48, tube: HORIZON_R * 0.015, rx: Math.PI * 0.32, rz:  0.15, col: 0xcc2244, op: 0.35 },  // red-pink arc
   ];
   return (
     <>
@@ -254,12 +256,14 @@ function OrbitParticles() {
     const col = new Float32Array(COUNT * 3);
     const dat = new Float32Array(COUNT * 3); // angle, radius, speed
     const pal = [
-      [0.65, 0.10, 1.00],
-      [1.00, 0.28, 0.78],
-      [0.22, 0.06, 0.95],
-      [0.90, 0.48, 1.00],
-      [1.00, 0.80, 1.00],
-      [0.55, 0.04, 0.82],
+      [0.65, 0.10, 1.00],  // purple
+      [1.00, 0.28, 0.78],  // hot pink
+      [0.86, 0.08, 0.08],  // deep red
+      [1.00, 0.35, 0.10],  // orange-red
+      [0.22, 0.06, 0.95],  // deep blue
+      [0.90, 0.48, 1.00],  // lavender
+      [1.00, 0.80, 1.00],  // near-white
+      [0.55, 0.04, 0.82],  // dark violet
     ];
     for (let i = 0; i < COUNT; i++) {
       const angle  = Math.random() * Math.PI * 2;
@@ -361,10 +365,11 @@ function BlackHoleGroup() {
       <OrbitParticles />
       <Jets />
 
-      {/* Glow lights */}
-      <pointLight color="#aa44ff" intensity={10} distance={HORIZON_R * 14} decay={2} />
-      <pointLight color="#ff44aa" intensity={5}  distance={HORIZON_R * 10} decay={2} position={[HORIZON_R * 2, 0.5, 0]} />
-      <pointLight color="#4422ff" intensity={4}  distance={HORIZON_R * 8}  decay={2} position={[-HORIZON_R, 0, HORIZON_R]} />
+      {/* Glow lights — red core + purple outer */}
+      <pointLight color="#ff2200" intensity={12} distance={HORIZON_R * 10} decay={2} />
+      <pointLight color="#aa44ff" intensity={6}  distance={HORIZON_R * 14} decay={2} position={[0, HORIZON_R, 0]} />
+      <pointLight color="#cc1133" intensity={5}  distance={HORIZON_R * 8}  decay={2} position={[HORIZON_R * 2, 0.5, 0]} />
+      <pointLight color="#4422ff" intensity={3}  distance={HORIZON_R * 8}  decay={2} position={[-HORIZON_R, 0, HORIZON_R]} />
     </group>
   );
 }
@@ -387,23 +392,32 @@ export default function BlackHoleScene() {
       {/* Stars — closer radius so they're visible, higher factor */}
       <Stars radius={120} depth={60} count={8000} factor={5} saturation={0.4} fade speed={0.3} />
 
-      {/* Sparkles around the disk plane */}
+      {/* Sparkles — red + purple mix */}
       <Sparkles
         count={220}
         scale={[HORIZON_R * 10, HORIZON_R * 3, HORIZON_R * 10]}
         position={[BH_X, 0, 0]}
         size={2.0}
         speed={0.22}
-        opacity={0.70}
+        opacity={0.65}
+        color="#ff3300"
+      />
+      <Sparkles
+        count={120}
+        scale={[HORIZON_R * 8, HORIZON_R * 2.5, HORIZON_R * 8]}
+        position={[BH_X, 0, 0]}
+        size={1.6}
+        speed={0.18}
+        opacity={0.55}
         color="#a855f7"
       />
       <Sparkles
-        count={100}
-        scale={[HORIZON_R * 7, HORIZON_R * 2, HORIZON_R * 7]}
+        count={80}
+        scale={[HORIZON_R * 6, HORIZON_R * 2, HORIZON_R * 6]}
         position={[BH_X, 0, 0]}
-        size={1.4}
-        speed={0.16}
-        opacity={0.55}
+        size={1.0}
+        speed={0.14}
+        opacity={0.45}
         color="#ec4899"
       />
 

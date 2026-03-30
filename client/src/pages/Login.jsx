@@ -10,7 +10,7 @@ function Logo({ size = 36 }) {
     <svg width={size} height={size} viewBox="0 0 40 40" fill="none">
       <defs>
         <linearGradient id="ll1" x1="0" y1="0" x2="40" y2="40" gradientUnits="userSpaceOnUse">
-          <stop offset="0%"   stopColor="#7c3aed" />
+          <stop offset="0%"   stopColor="#dc2626" />
           <stop offset="50%"  stopColor="#9333ea" />
           <stop offset="100%" stopColor="#db2777" />
         </linearGradient>
@@ -80,9 +80,9 @@ const Login = () => {
     <div className="page-space min-h-screen flex">
 
       {/* ── Decorative orbs ── */}
-      <Orb className="glow-orb-purple w-96 h-96 -top-20 -left-20 opacity-60" />
-      <Orb className="glow-orb-pink   w-72 h-72 bottom-10 right-10 opacity-40" />
-      <Orb className="glow-orb-blue   w-64 h-64 top-1/2 left-1/3 opacity-30" />
+      <Orb className="glow-orb-red    w-96 h-96 -top-20 -left-20 opacity-50" />
+      <Orb className="glow-orb-purple w-72 h-72 bottom-10 right-10 opacity-35" />
+      <Orb className="glow-orb-pink   w-64 h-64 top-1/2 left-1/3 opacity-25" />
 
       {/* ════════════════════════════════════════════════════════════════════
           LEFT PANEL — branding + feature highlights
@@ -140,7 +140,7 @@ const Login = () => {
           animate={{ opacity: 1 }}
           transition={{ delay: 0.5, duration: 0.8 }}
           className="p-5 rounded-2xl border border-white/6"
-          style={{ background: 'rgba(139,92,246,0.06)' }}
+          style={{ background: 'rgba(220,38,38,0.08)' }}
         >
           <p className="text-slate-300 text-sm leading-relaxed italic mb-3">
             "I built my portfolio in 20 minutes and got a callback from Razorpay the same week."
@@ -148,7 +148,7 @@ const Login = () => {
           <div className="flex items-center gap-2.5">
             <div
               className="w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold text-white"
-              style={{ background: 'linear-gradient(135deg,#a855f7,#ec4899)' }}
+              style={{ background: 'linear-gradient(135deg,#dc2626,#9333ea)' }}
             >
               AM
             </div>
@@ -186,7 +186,7 @@ const Login = () => {
               <h2 className="text-2xl font-bold font-outfit mb-1.5">Sign in</h2>
               <p className="text-slate-400 text-sm">
                 Don't have an account?{' '}
-                <Link to="/register" className="text-purple-400 hover:text-purple-300 font-medium transition-colors">
+                <Link to="/register" className="text-red-400 hover:text-red-300 font-medium transition-colors">
                   Create one free
                 </Link>
               </p>
@@ -246,7 +246,7 @@ const Login = () => {
                   />
                   <span className="text-sm text-slate-400">Remember me</span>
                 </label>
-                <a href="#" className="text-sm text-purple-400 hover:text-purple-300 transition-colors font-medium">
+                <a href="#" className="text-sm text-red-400 hover:text-red-300 transition-colors font-medium">
                   Forgot password?
                 </a>
               </div>

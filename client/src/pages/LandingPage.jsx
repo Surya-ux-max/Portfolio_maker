@@ -18,7 +18,7 @@ function Logo({ size = 32 }) {
     <svg width={size} height={size} viewBox="0 0 40 40" fill="none">
       <defs>
         <linearGradient id="lg1" x1="0" y1="0" x2="40" y2="40" gradientUnits="userSpaceOnUse">
-          <stop offset="0%" stopColor="#7c3aed" />
+          <stop offset="0%" stopColor="#dc2626" />
           <stop offset="50%" stopColor="#9333ea" />
           <stop offset="100%" stopColor="#db2777" />
         </linearGradient>
@@ -237,8 +237,8 @@ const LandingPage = () => {
                 to="/register"
                 className="inline-flex items-center gap-1.5 px-5 py-2 text-sm font-semibold rounded-full text-white transition-all"
                 style={{
-                  background: 'linear-gradient(135deg,#6d28d9,#9333ea)',
-                  boxShadow: '0 0 20px rgba(139,92,246,0.35)',
+                  background: 'linear-gradient(135deg,#dc2626,#9333ea)',
+                  boxShadow: '0 0 20px rgba(220,38,38,0.35)',
                 }}
               >
                 Get Started <ArrowRight className="w-3.5 h-3.5" />
@@ -289,7 +289,7 @@ const LandingPage = () => {
                 With a{' '}
                 <span
                   className="text-transparent bg-clip-text"
-                  style={{ backgroundImage: 'linear-gradient(135deg,#a78bfa 0%,#ec4899 50%,#818cf8 100%)' }}
+                  style={{ backgroundImage: 'linear-gradient(135deg,#f87171 0%,#a78bfa 45%,#ec4899 100%)' }}
                 >
                   Stunning
                 </span>
@@ -318,8 +318,8 @@ const LandingPage = () => {
                   to="/register"
                   className="inline-flex items-center justify-center gap-2 px-8 py-4 text-base font-semibold rounded-full text-white transition-all group"
                   style={{
-                    background: 'linear-gradient(135deg,#6d28d9 0%,#9333ea 50%,#db2777 100%)',
-                    boxShadow: '0 0 40px rgba(139,92,246,0.45), 0 4px 24px rgba(0,0,0,0.4)',
+                    background: 'linear-gradient(135deg,#dc2626 0%,#9333ea 45%,#db2777 100%)',
+                    boxShadow: '0 0 40px rgba(220,38,38,0.40), 0 4px 24px rgba(0,0,0,0.4)',
                   }}
                 >
                   Start Building Free
@@ -533,7 +533,7 @@ const LandingPage = () => {
             {/* Connector line */}
             <div
               className="hidden lg:block absolute top-16 left-[16.66%] right-[16.66%] h-px"
-              style={{ background: 'linear-gradient(to right,transparent,rgba(139,92,246,0.4),rgba(236,72,153,0.4),transparent)' }}
+              style={{ background: 'linear-gradient(to right,transparent,rgba(220,38,38,0.35),rgba(236,72,153,0.4),transparent)' }}
             />
 
             <div className="grid lg:grid-cols-3 gap-10">
@@ -616,8 +616,8 @@ const LandingPage = () => {
               to="/register"
               className="inline-flex items-center gap-2 px-8 py-4 text-base font-semibold rounded-full text-white transition-all group"
               style={{
-                background: 'linear-gradient(135deg,#6d28d9,#9333ea,#db2777)',
-                boxShadow: '0 0 40px rgba(139,92,246,0.35)',
+                background: 'linear-gradient(135deg,#dc2626,#9333ea,#db2777)',
+                boxShadow: '0 0 40px rgba(220,38,38,0.35)',
               }}
             >
               Get started for free
@@ -830,7 +830,7 @@ const LandingPage = () => {
       >
         {/* Glow orbs */}
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[300px] rounded-full blur-[120px] opacity-20 pointer-events-none"
-          style={{ background: 'linear-gradient(135deg,#6d28d9,#db2777)' }}
+          style={{ background: 'linear-gradient(135deg,#dc2626,#db2777)' }}
         />
 
         <div className="max-w-4xl mx-auto px-6 lg:px-10 text-center relative">
@@ -846,7 +846,7 @@ const LandingPage = () => {
               with a{' '}
               <span
                 className="text-transparent bg-clip-text"
-                style={{ backgroundImage:'linear-gradient(135deg,#a78bfa 0%,#ec4899 50%,#818cf8 100%)' }}
+                style={{ backgroundImage:'linear-gradient(135deg,#f87171 0%,#a78bfa 45%,#ec4899 100%)' }}
               >
                 great portfolio
               </span>
@@ -859,8 +859,8 @@ const LandingPage = () => {
                 to="/register"
                 className="inline-flex items-center gap-2 px-10 py-4 text-base font-semibold rounded-full text-white transition-all group"
                 style={{
-                  background: 'linear-gradient(135deg,#6d28d9,#9333ea,#db2777)',
-                  boxShadow: '0 0 60px rgba(139,92,246,0.5)',
+                  background: 'linear-gradient(135deg,#dc2626,#9333ea,#db2777)',
+                  boxShadow: '0 0 60px rgba(220,38,38,0.45)',
                 }}
               >
                 Build my portfolio — it\'s free

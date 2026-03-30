@@ -15,11 +15,9 @@ function Logo({ size = 32 }) {
     <svg width={size} height={size} viewBox="0 0 40 40" fill="none">
       <defs>
         <linearGradient id="dl1" x1="0" y1="0" x2="40" y2="40" gradientUnits="userSpaceOnUse">
-          <stop offset="0%"   stopColor="#7c3aed" />
+          <stop offset="0%"   stopColor="#dc2626" />
           <stop offset="50%"  stopColor="#9333ea" />
-          <stop offset="100%" stopColor="#db2777" />
-        </linearGradient>
-        <linearGradient id="dl2" x1="0" y1="0" x2="40" y2="40" gradientUnits="userSpaceOnUse">
+          <stop offset="100%" stopColor="#db2777" /> x1="0" y1="0" x2="40" y2="40" gradientUnits="userSpaceOnUse">
           <stop offset="0%"   stopColor="#a78bfa" />
           <stop offset="100%" stopColor="#f472b6" />
         </linearGradient>
@@ -67,7 +65,7 @@ function ProgressItem({ label, done, delay }) {
       <div
         className="w-6 h-6 rounded-full flex items-center justify-center shrink-0 transition-all duration-300"
         style={{
-          background: done ? 'linear-gradient(135deg,#7c3aed,#db2777)' : 'rgba(255,255,255,0.04)',
+          background: done ? 'linear-gradient(135deg,#dc2626,#db2777)' : 'rgba(255,255,255,0.04)',
           border: done ? 'none' : '1px solid rgba(255,255,255,0.08)',
         }}
       >
@@ -153,7 +151,7 @@ const Dashboard = () => {
             >
               <div
                 className="w-6 h-6 rounded-full flex items-center justify-center text-[11px] font-bold text-white"
-                style={{ background: 'linear-gradient(135deg,#7c3aed,#db2777)' }}
+                style={{ background: 'linear-gradient(135deg,#dc2626,#db2777)' }}
               >
                 {user?.name?.charAt(0)?.toUpperCase()}
               </div>
@@ -309,7 +307,7 @@ const Dashboard = () => {
                 animate={{ width: `${pct}%` }}
                 transition={{ delay: 0.5, duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
                 className="h-full rounded-full"
-                style={{ background: 'linear-gradient(90deg,#7c3aed,#db2777)' }}
+                style={{ background: 'linear-gradient(90deg,#dc2626,#db2777)' }}
               />
             </div>
 
@@ -393,7 +391,7 @@ const Dashboard = () => {
               <div className="flex items-center gap-3">
                 <div
                   className="w-12 h-12 rounded-full flex items-center justify-center text-lg font-bold text-white shrink-0"
-                  style={{ background: 'linear-gradient(135deg,#7c3aed,#db2777)' }}
+                  style={{ background: 'linear-gradient(135deg,#dc2626,#db2777)' }}
                 >
                   {user?.name?.charAt(0)?.toUpperCase()}
                 </div>
