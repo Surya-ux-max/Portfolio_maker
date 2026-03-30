@@ -1,232 +1,273 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { 
-  Github, Linkedin, Twitter, Mail, MapPin, ExternalLink,
-  Calendar, BookOpen, Briefcase, Code, Layers, Award,
-  ArrowUpRight, Zap, Target
+import {
+  Github, Linkedin, Twitter, Mail, MapPin, Phone,
+  ExternalLink, BookOpen, Briefcase, Code, Layers,
+  Award, Globe, ArrowUpRight,
 } from 'lucide-react';
 
-const MinimalTemplate = ({ portfolio, isDark }) => {
-  const { personalInfo, education, experience, projects, skills, socialLinks } = portfolio;
+const fade = (delay = 0) => ({
+  initial:     { opacity: 0, y: 20 },
+  whileInView: { opacity: 1, y: 0 },
+  viewport:    { once: true },
+  transition:  { duration: 0.55, ease: [0.22, 1, 0.36, 1], delay },
+});
 
-  const fadeIn = {
-    hidden: { opacity: 0, y: 10 },
-    visible: { opacity: 1, y: 0, transition: { duration: 0.5 } }
-  };
+const MinimalTemplate = ({ portfolio, user, isDark }) => {
+  const {
+    personalInfo = {}, education = [], experience = [],
+    projects = [], skills = [], certifications = [],
+    socialLinks = {},
+  } = portfolio;
+
+  const bg          = isDark ? '#05020f' : '#ffffff';
+  const surface     = isDark ? 'rgba(255,255,255,0.04)' : '#f9f7ff';
+  const border      = isDark ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.08)';
+  const textPrimary = isDark ? '#f1f0f5' : '#0f0a1e';
+  const textMuted   = isDark ? '#6b7280' : '#6b7280';
+  const accent      = '#dc2626';
 
   return (
-    <div className={`min-h-screen ${isDark ? 'mesh-gradient-dark text-slate-200' : 'mesh-gradient-light text-slate-800'} selection:bg-indigo-500 selection:text-white font-sans`}>
-      <main className="max-w-6xl mx-auto px-6 py-12 lg:py-24">
-        
-        {/* Bento Grid Layout */}
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-6">
-          
-          {/* 1. Profile / Hero (Large Bento) */}
-          <motion.section 
-            initial="hidden"
-            animate="visible"
-            variants={fadeIn}
-            className={`md:col-span-8 p-8 lg:p-12 rounded-[2.5rem] ${isDark ? 'glass-card-dark' : 'glass-card'} shadow-sm relative overflow-hidden group`}
-          >
-            <div className="relative z-10">
-              <div className="flex flex-col md:flex-row items-center md:items-start gap-8 mb-10">
+    <div className="min-h-screen font-sans" style={{ background: bg, color: textPrimary }}>
 
-                <div className="text-center md:text-left">
-                  <h1 className={`text-4xl lg:text-6xl font-black tracking-tight mb-4 font-outfit uppercase italic ${isDark ? 'text-white' : 'text-slate-900'}`}>
-                    {personalInfo?.name}
-                  </h1>
-                  <p className={`text-xl font-bold ${isDark ? 'text-indigo-400' : 'text-indigo-600'} italic`}>
-                    {personalInfo?.role}
-                  </p>
-                </div>
-              </div>
-              <p className={`text-xl lg:text-2xl leading-relaxed ${isDark ? 'text-slate-400' : 'text-slate-600'} font-medium max-w-2xl`}>
-                {personalInfo?.bio}
+      {/* ── Top nav bar ── */}
+      <motion.header
+        initial={{ opacity: 0, y: -16 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+        className="sticky top-0 z-40 border-b px-8 py-4 flex items-center justify-between"
+        style={{ background: isDark ? 'rgba(5,2,15,0.85)' : 'rgba(255,255,255,0.85)', borderColor: border, backdropFilter: 'blur(16px)' }}
+      >
+        <span className="font-bold font-outfit text-lg" style={{ color: textPrimary }}>
+          {personalInfo.name || user?.name}
+        </span>
+        <div className="flex items-center gap-4">
+          {[
+            { icon: Github,   href: socialLinks.github },
+            { icon: Linkedin, href: socialLinks.linkedin },
+            { icon: Twitter,  href: socialLinks.twitter },
+          ].map((s, i) => s.href && (
+            <a key={i} href={s.href} target="_blank" rel="noopener noreferrer"
+              className="transition-colors hover:text-red-400" style={{ color: textMuted }}>
+              <s.icon className="w-4 h-4" />
+            </a>
+          ))}
+          {personalInfo.email && (
+            <a href={`mailto:${personalInfo.email}`}
+              className="px-4 py-1.5 rounded-full text-sm font-semibold text-white transition-all"
+              style={{ background: 'linear-gradient(135deg,#dc2626,#9333ea)' }}>
+              Hire me
+            </a>
+          )}
+        </div>
+      </motion.header>
+
+      <main className="max-w-5xl mx-auto px-6 py-16 lg:py-24 space-y-24">
+
+        {/* ── Hero ── */}
+        <motion.section {...fade(0)} className="space-y-6">
+          <div className="flex flex-col md:flex-row md:items-end justify-between gap-8">
+            <div>
+              <p className="text-sm font-semibold uppercase tracking-widest mb-3" style={{ color: accent }}>
+                Portfolio
+              </p>
+              <h1 className="text-5xl lg:text-7xl font-bold font-outfit leading-[1.05]" style={{ color: textPrimary }}>
+                {personalInfo.name || user?.name}
+              </h1>
+              <p className="text-xl mt-3 font-medium" style={{ color: textMuted }}>
+                {personalInfo.role}
               </p>
             </div>
-            {/* Background design */}
-            <div className={`absolute -top-10 -right-10 w-40 h-40 rounded-full blur-[80px] opacity-20 ${isDark ? 'bg-indigo-500' : 'bg-indigo-400'}`} />
-          </motion.section>
-
-          {/* 2. Contact Info (Small Bento) */}
-          <motion.section 
-            initial="hidden"
-            animate="visible"
-            variants={fadeIn}
-            transition={{ delay: 0.1 }}
-            className={`md:col-span-4 p-8 rounded-[2.5rem] ${isDark ? 'glass-card-dark' : 'glass-card'} shadow-sm flex flex-col justify-between`}
-          >
-            <div className="space-y-6">
-              <h2 className={`text-xs font-black uppercase tracking-[0.3em] ${isDark ? 'text-slate-500' : 'text-slate-400'}`}>Contact & Location</h2>
-              <div className="space-y-4">
-                {personalInfo?.email && (
-                  <a href={`mailto:${personalInfo.email}`} className="flex items-center gap-3 transition-colors hover:text-indigo-500">
-                    <Mail className="w-5 h-5 opacity-50" />
-                    <span className="font-bold underline underline-offset-4 decoration-2 decoration-indigo-500/30 truncate">{personalInfo.email}</span>
-                  </a>
-                )}
-                {personalInfo?.location && (
-                  <div className="flex items-center gap-3">
-                    <MapPin className="w-5 h-5 opacity-50" />
-                    <span className="font-bold">{personalInfo.location}</span>
-                  </div>
-                )}
-              </div>
+            <div className="flex items-center gap-4 text-sm" style={{ color: textMuted }}>
+              {personalInfo.location && (
+                <span className="flex items-center gap-1.5">
+                  <MapPin className="w-4 h-4" /> {personalInfo.location}
+                </span>
+              )}
             </div>
-            <div className="flex gap-2 mt-8">
-              {[
-                { icon: Github, href: socialLinks?.github },
-                { icon: Linkedin, href: socialLinks?.linkedin },
-                { icon: Twitter, href: socialLinks?.twitter }
-              ].map((social, i) => social.href && (
-                <a key={i} href={social.href} target="_blank" rel="noopener noreferrer" className={`p-4 rounded-2xl ${isDark ? 'bg-white/5 hover:bg-white/10' : 'bg-white/40 hover:bg-white/60'} transition-all`}>
-                  <social.icon className="w-5 h-5" />
-                </a>
+          </div>
+
+          {personalInfo.bio && (
+            <p className="text-lg leading-relaxed max-w-2xl" style={{ color: textMuted }}>
+              {personalInfo.bio}
+            </p>
+          )}
+
+          {/* Divider */}
+          <div className="h-px w-full" style={{ background: `linear-gradient(to right, ${accent}, #9333ea, transparent)` }} />
+        </motion.section>
+
+        {/* ── Experience ── */}
+        {experience.length > 0 && (
+          <motion.section {...fade(0.1)}>
+            <h2 className="text-xs font-bold uppercase tracking-[0.25em] mb-8" style={{ color: textMuted }}>
+              Experience
+            </h2>
+            <div className="space-y-0">
+              {experience.map((exp, i) => (
+                <motion.div key={i} {...fade(i * 0.07)}
+                  className="grid md:grid-cols-[180px_1fr] gap-6 py-8 border-b group"
+                  style={{ borderColor: border }}>
+                  <div className="text-sm" style={{ color: textMuted }}>
+                    <p className="font-medium">{exp.startDate} — {exp.endDate || 'Present'}</p>
+                    {exp.location && <p className="mt-1 text-xs">{exp.location}</p>}
+                  </div>
+                  <div>
+                    <div className="flex items-start justify-between gap-4 mb-2">
+                      <div>
+                        <h3 className="font-bold font-outfit text-lg" style={{ color: textPrimary }}>{exp.position}</h3>
+                        <p className="text-sm font-semibold" style={{ color: accent }}>{exp.company}</p>
+                      </div>
+                    </div>
+                    <p className="text-sm leading-relaxed" style={{ color: textMuted }}>{exp.description}</p>
+                  </div>
+                </motion.div>
               ))}
             </div>
           </motion.section>
+        )}
 
-          {/* 3. Skills (Medium Bento) */}
-          <motion.section 
-            initial="hidden"
-            animate="visible"
-            variants={fadeIn}
-            transition={{ delay: 0.2 }}
-            className={`md:col-span-5 p-8 rounded-[2.5rem] ${isDark ? 'glass-card-dark' : 'glass-card'} shadow-sm`}
-          >
-            <h2 className={`text-2xl font-black mb-8 italic flex items-center gap-2 ${isDark ? 'text-white' : 'text-slate-900'}`}>
-              <Zap className="w-6 h-6 text-indigo-500" /> TOP SKILLS
+        {/* ── Projects ── */}
+        {projects.length > 0 && (
+          <motion.section {...fade(0.15)}>
+            <h2 className="text-xs font-bold uppercase tracking-[0.25em] mb-8" style={{ color: textMuted }}>
+              Selected Work
             </h2>
-            <div className="flex flex-wrap gap-2">
-              {skills?.length > 0 ? skills.map((skill, i) => (
-                <span key={i} className={`px-4 py-2 rounded-xl text-sm font-black uppercase tracking-tighter ${isDark ? 'bg-white/5 text-slate-300 border-white/5' : 'bg-white text-slate-700 border-slate-200'} border group hover:bg-indigo-600 hover:text-white hover:border-indigo-600 transition-all cursor-default shadow-sm`}>
-                  {skill.name}
-                </span>
-              )) : <span className="opacity-50 italic">No skills added.</span>}
-            </div>
-          </motion.section>
-
-          {/* 4. Experience Timeline (Large Bento - Scrollable) */}
-          <motion.section 
-            initial="hidden"
-            animate="visible"
-            variants={fadeIn}
-            transition={{ delay: 0.3 }}
-            className={`md:col-span-7 p-8 rounded-[2.5rem] ${isDark ? 'glass-card-dark' : 'glass-card'} shadow-sm max-h-[500px] overflow-y-auto custom-scrollbar`}
-          >
-            <h2 className={`text-2xl font-black mb-8 italic flex items-center gap-2 sticky top-0 ${isDark ? 'bg-[#0f0f0f]/0 backdrop-blur-xl' : 'bg-white/0 backdrop-blur-xl'} pb-4 z-10 rounded-xl`}>
-              <Target className="w-6 h-6 text-indigo-500" /> EXP. LOG
-            </h2>
-            <div className="space-y-8">
-              {experience?.length > 0 ? experience.map((exp, i) => (
-                <div key={i} className="relative pl-6 border-l-2 border-indigo-500/20 last:border-0 pb-2">
-                  <div className="absolute top-0 left-[-5px] w-2 h-2 rounded-full bg-indigo-500" />
-                  <div className="flex justify-between items-start mb-1">
-                    <h3 className={`font-black uppercase tracking-tight text-lg leading-tight ${isDark ? 'text-white' : 'text-slate-900'}`}>{exp.position}</h3>
-                    <span className={`text-[10px] font-black uppercase px-2 py-0.5 rounded-md ${isDark ? 'bg-white/10 text-slate-400' : 'bg-slate-200 text-slate-500'}`}>
-                      {exp.startDate} - {exp.endDate}
-                    </span>
-                  </div>
-                  <p className="text-indigo-500 font-bold mb-3 italic">{exp.company}</p>
-                  <p className={`text-sm leading-relaxed ${isDark ? 'text-slate-400' : 'text-slate-600'} font-medium`}>{exp.description}</p>
-                </div>
-              )) : <p className="opacity-50 italic">No experience logged.</p>}
-            </div>
-          </motion.section>
-
-          {/* 5. Featured Projects (Big Bento Grid) */}
-          <motion.section 
-            initial="hidden"
-            animate="visible"
-            variants={fadeIn}
-            transition={{ delay: 0.4 }}
-            className="md:col-span-12"
-          >
-            <div className="flex items-center justify-between mb-8 px-4">
-              <h2 className={`text-3xl font-black italic tracking-tighter uppercase ${isDark ? 'text-white' : 'text-slate-900'}`}>SELECTED WORKS</h2>
-              <div className="h-px flex-1 mx-8 bg-current opacity-10" />
-            </div>
-            
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {projects?.length > 0 ? projects.map((project, i) => (
-                <motion.div 
-                  key={i}
-                  whileHover={{ y: -5 }}
-                  className={`p-8 rounded-[2.5rem] ${isDark ? 'glass-card-dark' : 'glass-card'} shadow-sm group relative overflow-hidden`}
-                >
-                  <div className="flex justify-between items-start mb-12">
-                    <div className={`w-12 h-12 rounded-2xl flex items-center justify-center ${isDark ? 'bg-white/5 text-white' : 'bg-indigo-50 text-indigo-500'} group-hover:bg-indigo-600 group-hover:text-white transition-all`}>
-                      <Layers className="w-6 h-6" />
+            <div className="space-y-0">
+              {projects.map((proj, i) => (
+                <motion.div key={i} {...fade(i * 0.07)}
+                  className="py-8 border-b group flex items-start justify-between gap-6"
+                  style={{ borderColor: border }}>
+                  <div className="flex-1">
+                    <h3 className="font-bold font-outfit text-xl mb-2 group-hover:text-red-400 transition-colors"
+                      style={{ color: textPrimary }}>
+                      {proj.title}
+                    </h3>
+                    <p className="text-sm leading-relaxed mb-4" style={{ color: textMuted }}>{proj.description}</p>
+                    <div className="flex flex-wrap gap-2">
+                      {proj.techStack?.map((t, j) => (
+                        <span key={j} className="text-xs font-medium px-2.5 py-1 rounded-full border"
+                          style={{ color: textMuted, borderColor: border }}>
+                          {t}
+                        </span>
+                      ))}
                     </div>
-                    <div className="flex gap-2 translate-y-[-10px] translate-x-[10px] opacity-0 group-hover:opacity-100 group-hover:translate-x-0 group-hover:translate-y-0 transition-all duration-300">
-                      {project.liveLink && (
-                        <a href={project.liveLink} target="_blank" rel="noopener noreferrer" className="p-3 bg-indigo-600 text-white rounded-full shadow-lg shadow-indigo-500/20">
-                          <ArrowUpRight className="w-5 h-5" />
+                  </div>
+                  <div className="flex gap-2 shrink-0 mt-1">
+                    {proj.githubLink && (
+                      <a href={proj.githubLink} target="_blank" rel="noopener noreferrer"
+                        className="p-2.5 rounded-xl border transition-all hover:border-red-500/40"
+                        style={{ color: textMuted, borderColor: border }}>
+                        <Github className="w-4 h-4" />
+                      </a>
+                    )}
+                    {proj.liveLink && (
+                      <a href={proj.liveLink} target="_blank" rel="noopener noreferrer"
+                        className="p-2.5 rounded-xl text-white transition-all"
+                        style={{ background: 'linear-gradient(135deg,#dc2626,#9333ea)' }}>
+                        <ArrowUpRight className="w-4 h-4" />
+                      </a>
+                    )}
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+          </motion.section>
+        )}
+
+        {/* ── Skills + Education side by side ── */}
+        <div className="grid md:grid-cols-2 gap-16">
+
+          {skills.length > 0 && (
+            <motion.section {...fade(0.2)}>
+              <h2 className="text-xs font-bold uppercase tracking-[0.25em] mb-8" style={{ color: textMuted }}>
+                Skills
+              </h2>
+              <div className="flex flex-wrap gap-2">
+                {skills.map((skill, i) => (
+                  <motion.span key={i} {...fade(i * 0.04)} whileHover={{ scale: 1.05 }}
+                    className="px-3 py-1.5 rounded-full text-sm font-medium border transition-all hover:border-red-500/40 cursor-default"
+                    style={{ background: surface, color: textPrimary, borderColor: border }}>
+                    {skill.name}
+                  </motion.span>
+                ))}
+              </div>
+            </motion.section>
+          )}
+
+          {education.length > 0 && (
+            <motion.section {...fade(0.25)}>
+              <h2 className="text-xs font-bold uppercase tracking-[0.25em] mb-8" style={{ color: textMuted }}>
+                Education
+              </h2>
+              <div className="space-y-6">
+                {education.map((edu, i) => (
+                  <motion.div key={i} {...fade(i * 0.07)}>
+                    <h3 className="font-bold font-outfit" style={{ color: textPrimary }}>
+                      {edu.degree} {edu.fieldOfStudy ? `in ${edu.fieldOfStudy}` : ''}
+                    </h3>
+                    <p className="text-sm font-semibold mt-0.5" style={{ color: accent }}>{edu.institution}</p>
+                    <p className="text-xs mt-1" style={{ color: textMuted }}>{edu.startYear} — {edu.endYear}</p>
+                    {edu.description && (
+                      <p className="text-xs mt-1.5" style={{ color: textMuted }}>{edu.description}</p>
+                    )}
+                  </motion.div>
+                ))}
+              </div>
+            </motion.section>
+          )}
+        </div>
+
+        {/* ── Certifications ── */}
+        {certifications.length > 0 && (
+          <motion.section {...fade(0.3)}>
+            <h2 className="text-xs font-bold uppercase tracking-[0.25em] mb-8" style={{ color: textMuted }}>
+              Certifications
+            </h2>
+            <div className="grid sm:grid-cols-2 gap-4">
+              {certifications.map((cert, i) => (
+                <motion.div key={i} {...fade(i * 0.07)}
+                  className="p-5 rounded-2xl border flex items-start gap-4"
+                  style={{ background: surface, borderColor: border }}>
+                  <div className="w-8 h-8 rounded-lg flex items-center justify-center shrink-0"
+                    style={{ background: 'rgba(245,158,11,0.12)', color: '#f59e0b' }}>
+                    <Award className="w-4 h-4" />
+                  </div>
+                  <div className="min-w-0">
+                    <h3 className="font-semibold text-sm font-outfit" style={{ color: textPrimary }}>{cert.name}</h3>
+                    <p className="text-xs mt-0.5 font-medium" style={{ color: '#f59e0b' }}>{cert.issuer}</p>
+                    <div className="flex items-center justify-between mt-1.5">
+                      <span className="text-xs" style={{ color: textMuted }}>{cert.date}</span>
+                      {cert.link && (
+                        <a href={cert.link} target="_blank" rel="noopener noreferrer"
+                          className="text-xs flex items-center gap-1 hover:text-red-400 transition-colors"
+                          style={{ color: textMuted }}>
+                          View <ExternalLink className="w-3 h-3" />
                         </a>
                       )}
                     </div>
                   </div>
-                  <h3 className={`text-2xl font-black mb-4 tracking-tighter uppercase ${isDark ? 'text-white' : 'text-slate-900'}`}>{project.title}</h3>
-                  <p className={`text-sm mb-8 leading-relaxed font-medium ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>{project.description}</p>
-                  <div className="flex flex-wrap gap-2">
-                    {project.techStack?.map((tech, j) => (
-                      <span key={j} className="text-[10px] font-black uppercase tracking-widest opacity-40">{tech}</span>
-                    ))}
-                  </div>
-                  
-                  {/* Decorative number */}
-                  <div className={`absolute bottom-[-20px] right-[-10px] text-8xl font-black italic ${isDark ? 'text-white/5' : 'text-slate-200/50'} pointer-events-none group-hover:text-indigo-500/10 transition-colors`}>
-                    0{i+1}
-                  </div>
                 </motion.div>
-              )) : <div className="col-span-full text-center py-20 opacity-30 italic">No projects showcased yet.</div>}
+              ))}
             </div>
           </motion.section>
+        )}
 
-          {/* 6. Education (Medium Bento) */}
-          <motion.section 
-            initial="hidden"
-            animate="visible"
-            variants={fadeIn}
-            transition={{ delay: 0.5 }}
-            className={`md:col-span-12 p-12 rounded-[2.5rem] ${isDark ? 'glass-card-dark' : 'glass-card'} shadow-sm`}
-          >
-            <div className="grid md:grid-cols-2 gap-12">
-              <div>
-                <h2 className={`text-3xl font-black italic uppercase tracking-tighter mb-2 ${isDark ? 'text-white' : 'text-slate-900'}`}>Education</h2>
-                <p className={`font-medium ${isDark ? 'text-slate-500' : 'text-slate-400'}`}>Academic profile and certifications.</p>
-              </div>
-              <div className="space-y-10">
-                {education?.length > 0 ? education.map((edu, i) => (
-                  <div key={i} className="flex gap-6">
-                    <div className={`flex-shrink-0 w-12 h-12 rounded-2xl flex items-center justify-center ${isDark ? 'bg-white/5 text-indigo-400' : 'bg-indigo-50 text-indigo-600'}`}>
-                      <BookOpen className="w-6 h-6" />
-                    </div>
-                    <div>
-                      <h4 className={`text-xl font-bold uppercase tracking-tight mb-1 ${isDark ? 'text-white' : 'text-slate-900'}`}>{edu.degree} in {edu.fieldOfStudy}</h4>
-                      <p className="font-black text-indigo-500 italic mb-2">{edu.institution}</p>
-                      <span className={`text-xs font-black uppercase tracking-widest ${isDark ? 'text-slate-500' : 'text-slate-400'}`}>{edu.startYear} — {edu.endYear}</span>
-                    </div>
-                  </div>
-                )) : <p className="opacity-50 italic">No education listed.</p>}
-              </div>
-            </div>
-          </motion.section>
-
-        </div>
-
-        {/* Footer */}
-        <footer className="mt-24 pt-12 border-t border-current opacity-10 flex flex-col md:flex-row justify-between items-center gap-6">
-          <div className="text-xs font-black uppercase tracking-[0.4em] opacity-40">
-            FIRSTPORTFOLIO ARCHIVE © 2026
+        {/* ── Footer ── */}
+        <footer className="pt-10 border-t flex flex-col md:flex-row items-center justify-between gap-4"
+          style={{ borderColor: border }}>
+          <div className="text-xs" style={{ color: textMuted }}>
+            {personalInfo.email && (
+              <a href={`mailto:${personalInfo.email}`} className="hover:text-red-400 transition-colors">
+                {personalInfo.email}
+              </a>
+            )}
           </div>
-          <div className="flex gap-4">
-            <a href="/" className="text-xs font-black uppercase tracking-widest italic text-indigo-500 hover:text-indigo-600 transition-colors">
-              Built with FirstPortfolio. Create yours free.
-            </a>
-          </div>
+          <a href="/" className="text-xs font-semibold flex items-center gap-1.5 hover:text-red-400 transition-colors"
+            style={{ color: textMuted }}>
+            <Globe className="w-3 h-3" /> Built with FirstPortfolio
+          </a>
         </footer>
-
       </main>
     </div>
   );
