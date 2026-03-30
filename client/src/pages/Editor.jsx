@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useAuth } from '../context/AuthContext';
 import portfolioService from '../api/portfolioService';
+import ThemeToggle from '../components/ThemeToggle';
 import {
   ChevronLeft, Save, Loader2, CheckCircle2, AlertCircle,
   User, Briefcase, GraduationCap, Code, Layers,
@@ -232,6 +233,7 @@ const Editor = () => {
 
         {/* Right */}
         <div className="flex items-center gap-3">
+          <ThemeToggle />
           {/* Save status */}
           <AnimatePresence>
             {saveStatus === 'success' && (

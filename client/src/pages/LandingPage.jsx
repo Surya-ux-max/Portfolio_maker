@@ -3,8 +3,6 @@ import { Link } from 'react-router-dom';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { ArrowRight, Smartphone, Zap, Palette, Globe, Shield, Star, Users, Clock, CheckCircle, ChevronRight, Github, Twitter, Linkedin, Play } from 'lucide-react';
 import BlackHoleScene from '../components/BlackHoleScene';
-
-/* ─── shared fade-up variant ─────────────────────────────────────────────── */
 const fadeUp = (delay = 0) => ({
   initial: { opacity: 0, y: 28 },
   whileInView: { opacity: 1, y: 0 },

@@ -4,8 +4,12 @@
 /* ═══════════════════════════════════════════════════════════════════════════
    DESIGN TOKENS
 ═══════════════════════════════════════════════════════════════════════════ */
-:root {
-  /* Brand — purple/red/pink triad */
+/* ═══════════════════════════════════════════════════════════════════════════
+   DESIGN TOKENS — DARK (default)
+═══════════════════════════════════════════════════════════════════════════ */
+:root,
+[data-theme="dark"] {
+  /* Brand */
   --clr-primary:       #7c3aed;
   --clr-primary-mid:   #9333ea;
   --clr-primary-light: #a78bfa;
@@ -20,6 +24,7 @@
   --clr-bg:            #000000;
   --clr-surface-1:     rgba(10, 3, 18, 0.85);
   --clr-surface-2:     rgba(14, 4, 24, 0.75);
+  --clr-surface-card:  rgba(8, 2, 14, 0.88);
   --clr-border:        rgba(255, 255, 255, 0.06);
   --clr-border-hover:  rgba(220, 38, 38, 0.30);
 
@@ -28,16 +33,69 @@
   --clr-text-muted:    #94a3b8;
   --clr-text-dim:      #475569;
 
-  /* Gradients — now include red */
+  /* Nav */
+  --clr-nav-bg:        rgba(0, 0, 0, 0.50);
+  --clr-nav-border:    rgba(255, 255, 255, 0.05);
+
+  /* Gradients */
   --grad-brand:        linear-gradient(135deg, #dc2626 0%, #9333ea 45%, #db2777 100%);
   --grad-brand-alt:    linear-gradient(135deg, #7c3aed 0%, #dc2626 50%, #ec4899 100%);
   --grad-text:         linear-gradient(135deg, #f87171 0%, #a78bfa 40%, #ec4899 100%);
   --grad-surface:      linear-gradient(135deg, rgba(220,38,38,0.10) 0%, rgba(147,51,234,0.10) 50%, rgba(236,72,153,0.08) 100%);
 
-  /* Shadows — red-tinted */
+  /* Shadows */
   --shadow-brand:      0 0 40px rgba(220, 38, 38, 0.30), 0 0 80px rgba(139, 92, 246, 0.20), 0 4px 24px rgba(0,0,0,0.50);
   --shadow-glow-sm:    0 0 20px rgba(220, 38, 38, 0.25);
   --shadow-glow-lg:    0 0 60px rgba(220, 38, 38, 0.35), 0 0 100px rgba(139, 92, 246, 0.20);
+
+  /* Radius */
+  --radius-card:       1.5rem;
+  --radius-input:      0.875rem;
+  --radius-btn:        9999px;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   DESIGN TOKENS — LIGHT
+═══════════════════════════════════════════════════════════════════════════ */
+[data-theme="light"] {
+  /* Brand stays same */
+  --clr-primary:       #7c3aed;
+  --clr-primary-mid:   #9333ea;
+  --clr-primary-light: #6d28d9;
+  --clr-red:           #dc2626;
+  --clr-red-mid:       #e11d48;
+  --clr-red-light:     #b91c1c;
+  --clr-accent:        #db2777;
+  --clr-accent-light:  #be185d;
+  --clr-blue:          #4f46e5;
+
+  /* Surfaces */
+  --clr-bg:            #f8f5ff;
+  --clr-surface-1:     rgba(255, 255, 255, 0.95);
+  --clr-surface-2:     rgba(245, 240, 255, 0.90);
+  --clr-surface-card:  rgba(255, 255, 255, 0.98);
+  --clr-border:        rgba(109, 40, 217, 0.12);
+  --clr-border-hover:  rgba(220, 38, 38, 0.25);
+
+  /* Text */
+  --clr-text:          #0f0a1e;
+  --clr-text-muted:    #4b5563;
+  --clr-text-dim:      #9ca3af;
+
+  /* Nav */
+  --clr-nav-bg:        rgba(255, 255, 255, 0.85);
+  --clr-nav-border:    rgba(109, 40, 217, 0.10);
+
+  /* Gradients */
+  --grad-brand:        linear-gradient(135deg, #dc2626 0%, #9333ea 45%, #db2777 100%);
+  --grad-brand-alt:    linear-gradient(135deg, #7c3aed 0%, #dc2626 50%, #ec4899 100%);
+  --grad-text:         linear-gradient(135deg, #dc2626 0%, #7c3aed 40%, #db2777 100%);
+  --grad-surface:      linear-gradient(135deg, rgba(220,38,38,0.06) 0%, rgba(147,51,234,0.06) 50%, rgba(219,39,119,0.04) 100%);
+
+  /* Shadows */
+  --shadow-brand:      0 0 30px rgba(220, 38, 38, 0.20), 0 4px 20px rgba(0,0,0,0.12);
+  --shadow-glow-sm:    0 0 16px rgba(220, 38, 38, 0.18);
+  --shadow-glow-lg:    0 0 40px rgba(220, 38, 38, 0.22), 0 8px 32px rgba(0,0,0,0.10);
 
   /* Radius */
   --radius-card:       1.5rem;
@@ -55,6 +113,7 @@ body {
   background-color: var(--clr-bg);
   color: var(--clr-text);
   -webkit-font-smoothing: antialiased;
+  transition: background-color 0.4s ease, color 0.4s ease;
 }
 
 .font-outfit { font-family: 'Outfit', sans-serif; }
@@ -66,7 +125,7 @@ body {
 /* Deep space — used by Login / Register / any auth page */
 .page-space {
   min-height: 100vh;
-  background-color: #000000;
+  background-color: var(--clr-bg);
   background-image:
     radial-gradient(ellipse 80% 50% at 20% 20%,  rgba(220, 38, 38,  0.14) 0%, transparent 55%),
     radial-gradient(ellipse 60% 40% at 80% 80%,  rgba(147, 51, 234, 0.14) 0%, transparent 55%),
@@ -74,6 +133,15 @@ body {
     radial-gradient(ellipse 40% 30% at 10% 90%,  rgba(220, 38, 38,  0.08) 0%, transparent 50%);
   position: relative;
   overflow: hidden;
+  transition: background-color 0.4s ease;
+}
+
+[data-theme="light"] .page-space {
+  background-image:
+    radial-gradient(ellipse 80% 50% at 20% 20%,  rgba(220, 38, 38,  0.08) 0%, transparent 55%),
+    radial-gradient(ellipse 60% 40% at 80% 80%,  rgba(147, 51, 234, 0.08) 0%, transparent 55%),
+    radial-gradient(ellipse 50% 60% at 50% 50%,  rgba(219, 39, 119, 0.05) 0%, transparent 65%),
+    radial-gradient(ellipse 40% 30% at 10% 90%,  rgba(220, 38, 38,  0.05) 0%, transparent 50%);
 }
 
 /* Subtle star-dust overlay (CSS only, no JS) */
@@ -111,41 +179,34 @@ body {
    GLASS CARDS
 ═══════════════════════════════════════════════════════════════════════════ */
 .glass-card {
-  background: rgba(255, 255, 255, 0.07);
+  background: var(--clr-surface-1);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(255, 255, 255, 0.10);
+  border: 1px solid var(--clr-border);
   border-radius: var(--radius-card);
+  transition: background 0.3s ease, border-color 0.3s ease;
 }
 
 .glass-card-dark {
-  background: rgba(15, 23, 42, 0.60);
+  background: var(--clr-surface-2);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--clr-border);
+  transition: background 0.3s ease;
 }
 
-/* Auth card — used by Login / Register */
 .auth-card {
-  background: rgba(8, 2, 14, 0.88);
+  background: var(--clr-surface-card);
   backdrop-filter: blur(24px);
   -webkit-backdrop-filter: blur(24px);
-  border: 1px solid rgba(220, 38, 38, 0.12);
+  border: 1px solid var(--clr-border);
   border-radius: var(--radius-card);
-  box-shadow:
-    0 0 0 1px rgba(220,38,38,0.06),
-    0 32px 64px rgba(0,0,0,0.65),
-    inset 0 1px 0 rgba(255,255,255,0.04);
-  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 32px 64px rgba(0,0,0,0.25), inset 0 1px 0 rgba(255,255,255,0.05);
+  transition: background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
 }
 .auth-card:focus-within {
-  border-color: rgba(220, 38, 38, 0.25);
-  box-shadow:
-    0 0 0 1px rgba(220,38,38,0.12),
-    0 32px 64px rgba(0,0,0,0.65),
-    0 0 40px rgba(220,38,38,0.06),
-    0 0 80px rgba(139,92,246,0.05),
-    inset 0 1px 0 rgba(255,255,255,0.04);
+  border-color: var(--clr-border-hover);
+  box-shadow: 0 0 0 1px var(--clr-border-hover), 0 32px 64px rgba(0,0,0,0.25);
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════
@@ -154,20 +215,19 @@ body {
 .fp-input {
   width: 100%;
   padding: 0.75rem 1rem 0.75rem 2.75rem;
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: var(--clr-surface-2);
+  border: 1px solid var(--clr-border);
   border-radius: var(--radius-input);
-  color: #ffffff;
+  color: var(--clr-text);
   font-size: 0.875rem;
   font-family: 'Plus Jakarta Sans', sans-serif;
   transition: border-color 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
   outline: none;
   appearance: none;
 }
-.fp-input::placeholder { color: #475569; }
+.fp-input::placeholder { color: var(--clr-text-dim); }
 .fp-input:hover {
-  border-color: rgba(255, 255, 255, 0.14);
-  background: rgba(255, 255, 255, 0.06);
+  border-color: var(--clr-border-hover);
 }
 .fp-input:focus {
   border-color: rgba(220, 38, 38, 0.50);
@@ -211,17 +271,17 @@ body {
   border-radius: var(--radius-btn);
   font-size: 0.9375rem;
   font-weight: 600;
-  color: #cbd5e1;
+  color: var(--clr-text-muted);
   background: transparent;
-  border: 1px solid rgba(255, 255, 255, 0.10);
+  border: 1px solid var(--clr-border);
   cursor: pointer;
   transition: border-color 0.2s ease, background 0.2s ease, color 0.2s ease;
   font-family: 'Plus Jakarta Sans', sans-serif;
 }
 .btn-ghost:hover {
-  border-color: rgba(139, 92, 246, 0.40);
-  background: rgba(139, 92, 246, 0.06);
-  color: #ffffff;
+  border-color: var(--clr-border-hover);
+  background: rgba(220, 38, 38, 0.06);
+  color: var(--clr-text);
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════

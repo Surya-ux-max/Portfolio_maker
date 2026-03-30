@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { useAuth } from '../context/AuthContext';
 import portfolioService from '../api/portfolioService';
+import ThemeToggle from '../components/ThemeToggle';
 import {
   Plus, Edit3, LogOut, Eye, Copy, Check,
   CheckCircle2, Layout, Zap, Globe, User,
@@ -144,6 +145,7 @@ const Dashboard = () => {
           </Link>
 
           <div className="flex items-center gap-3">
+            <ThemeToggle />
             {/* Avatar chip */}
             <div
               className="flex items-center gap-2 px-3 py-1.5 rounded-full border border-white/8"
