@@ -29,8 +29,8 @@ function Logo({ size = 32 }) {
       <circle cx="20" cy="20" r="18" stroke="url(#lg1)" strokeWidth="2" fill="none" opacity="0.6" />
       {/* Inner filled circle */}
       <circle cx="20" cy="20" r="12" fill="url(#lg1)" />
-      {/* F letterform */}
-      <path d="M14 13h10v3h-7v3h6v3h-6v7h-3V13z" fill="white" />
+      {/* P letterform */}
+      <path d="M13 13h5c2.2 0 4 1.8 4 4s-1.8 4-4 4h-2v6h-3V13zm3 3v5h2c1.1 0 2-.9 2-2v-1c0-1.1-.9-2-2-2h-2z" fill="white" />
       {/* Orbit dot */}
       <circle cx="34" cy="12" r="2.5" fill="url(#lg2)" />
     </svg>
@@ -205,10 +205,10 @@ const LandingPage = () => {
                 <Logo size={34} />
               </motion.div>
               <span className="text-xl font-bold tracking-tight font-outfit">
-                First<span
+                Port<span
                   className="text-transparent bg-clip-text"
                   style={{ backgroundImage: 'linear-gradient(135deg,#a78bfa,#ec4899)' }}
-                >Portfolio</span>
+                >ify</span>
               </span>
             </Link>
 
@@ -428,7 +428,7 @@ const LandingPage = () => {
                 icon: <Globe className="w-6 h-6" />,
                 color: '#06b6d4', glow: 'rgba(6,182,212,0.25)',
                 title: 'Public URL',
-                desc: 'Get a shareable link like firstportfolio.app/yourname — ready to paste in emails.',
+                desc: 'Get a shareable link like portify.app/yourname — ready to paste in emails.',
                 tag: 'Instant Deploy',
               },
               {
@@ -558,7 +558,7 @@ const LandingPage = () => {
                   color: '#6366f1',
                   title: 'Publish & share',
                   desc: 'Pick a template, hit publish, and share your unique URL with the world.',
-                  detail: 'yourname.firstportfolio.app',
+                  detail: 'yourname.portify.app',
                 },
               ].map((s, i) => (
                 <motion.div
@@ -850,7 +850,7 @@ const LandingPage = () => {
               </span>
             </h2>
             <p className="text-slate-400 text-lg mb-10 max-w-xl mx-auto">
-              Join 2,400+ students who already landed interviews with their FirstPortfolio.
+              Join 2,400+ students who already landed interviews with their Portify.
             </p>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
               <Link
@@ -892,10 +892,10 @@ const LandingPage = () => {
               <Link to="/" className="flex items-center gap-2.5 mb-4">
                 <Logo size={30} />
                 <span className="text-lg font-bold font-outfit">
-                  First<span
+                  Port<span
                     className="text-transparent bg-clip-text"
                     style={{ backgroundImage:'linear-gradient(135deg,#a78bfa,#ec4899)' }}
-                  >Portfolio</span>
+                  >ify</span>
                 </span>
               </Link>
               <p className="text-slate-500 text-sm leading-relaxed mb-5">
@@ -952,7 +952,7 @@ const LandingPage = () => {
           <div className="border-t border-white/5 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
             <div className="flex items-center gap-2">
               <Logo size={20} />
-              <span className="text-sm text-slate-600">© 2026 FirstPortfolio. All rights reserved.</span>
+              <span className="text-sm text-slate-600">© 2026 Portify. All rights reserved.</span>
             </div>
             <div className="flex items-center gap-1 text-sm text-slate-600">
               Made with
